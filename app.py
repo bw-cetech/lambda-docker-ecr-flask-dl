@@ -7,7 +7,7 @@ import dash
 from dash.dependencies import Input, Output, State
 
 import imghdr
-# import os NOT NEEDED FOR CLOUD DEPLOY
+import os
 
 #from python.dlmodel import Model
 
