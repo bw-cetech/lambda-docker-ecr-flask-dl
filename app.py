@@ -28,7 +28,7 @@ def validate_image(stream):
 @app.route('/')
 def index():
     files = os.listdir(app.config['UPLOAD_PATH'])
-    return render_template('index.html', files=files)
+    return render_template('templates/index.html', files=files)
 
 @app.route('/', methods=['POST'])
 def upload_files():
@@ -43,7 +43,7 @@ def upload_files():
         #model = Model()
         # for testing
         # return filename
-        return render_template("index.html", token=model.runInference(filename))
+        return render_template("templates/index.html", token=model.runInference(filename))
     return redirect(url_for('index'))
 
 @app.route('/uploads/<filename>')
