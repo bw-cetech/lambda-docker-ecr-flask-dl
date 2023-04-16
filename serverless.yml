@@ -10,6 +10,9 @@ provider:
         path: ./
 
 functions:
+  tensorflow-endpoint: # get tensorflow from ECR image install
+   image:
+      uri: 795756113537.dkr.ecr.eu-west-1.amazonaws.com/lambda-tensorflow-example@sha256:a630142ddf917c1c3f903a44a5e38024602052edf5315f0ba772b3159b8b4651
   app:
     image:
       name: appimage
@@ -17,6 +20,3 @@ functions:
     events:
       - http: ANY /
       - http: 'ANY /{proxy+}'
-  tensorflow-endpoint: # get tensorflow from ECR image install
-   image:
-      uri: 795756113537.dkr.ecr.eu-west-1.amazonaws.com/lambda-tensorflow-example@sha256:a630142ddf917c1c3f903a44a5e38024602052edf5315f0ba772b3159b8b4651
