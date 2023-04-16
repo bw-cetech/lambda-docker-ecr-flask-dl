@@ -1,0 +1,12 @@
+{
+  "type": "service_account",
+  "project_id": "cetech-apps",
+  "private_key_id": "e96c9c82385dc55ac93ab3035401c0531f5bc94b",
+  "private_key": "-----BEGIN PRIVATE KEY-----\nMIIEvgIBADANBgkqhkiG9w0BAQEFAASCBKgwggSkAgEAAoIBAQC92FLw8Rptyc6a\nYSjByqop/74nSxOeOTaKo5JnkuUQDlKP3RCeOuOCvI1zv7i1ERmxeriDxgq9w4O2\nZryVNzGc+s8d4tmzJ4vVKEtOt1owrL0MwvDzIosyBNSHoUUAaKHszi4fcM0MfycE\nSh8ub/jPMJgKxdmNjBj9uos0S908/29f0kqMiCBVhFhUFVve5yecIx7Qpg8aEiSU\nlVOTZbhHp0090xhPVhN/jvAWyCHgEu40MULMol2nImoTZHskEUg5AUWYaTYsPVrS\nWe374RRS1e1H78Xk9gv8Oc5gvl1/AQmkjvY9/EoOaHtRyaVpRoVh2N0stfhSSuSG\nq8FIPnLJAgMBAAECggEAERqaymNmhqquZwFG60LHlvYYGzEr6M7tx4raJ2O4KHyp\n2pVHqIHUupQjSGDnEsUiI/fTBOhEUnl5decGqYjp+uMr4tzr0TTIZ+Fz+3kQcp81\nfx9XFwivMsf1n+ybK2DB6fRfemyuxKf2C3BkI8ppx7zwjdPqeFK9c6qpXQJSwep3\n0/Ej5axWz5srHOyb8f243zic2F0FkUZRSwIrkf5qkvm/A60x1mXusVmm09v8Ey2L\nESpTxocbUDUTbfcPpa86Iqwkc/qgV69df97KicVFhZZ5hCBZjRInh10CZ1GbbPzb\n7s8uciefXAq6xuH06eQ/BfA4L574X4Auuyi/MqwFCwKBgQDeu/PkbvMSi/cTHmlI\nC83l9Cpx9kjnuarj61cVx4/AxaUUA8UinzcsRkpNIt6T8lnQuTZf+IpBYwIqhA8L\ngKUs9X1L2iR2kdl/vV1pR8udw9AGD+ocGLqW2EnGJ58I4ikZteAx3Iepw7/RYxCT\nvQRy0fO/Al7w43wnuoONyJmTPwKBgQDaMuHlZb1El7bRfId34z3mHFz/+AwffpWp\nvmcfl1TTZXdPFPm2JQVA9b8nsGRuKaihBAkLaq1lBt4fj5KV/5qt8arnjMBubPyM\n4LqZL9UQznRDaaDJPCCM5iyck2QEyewUc//xC5WkRfjyWujbZZRjln8SgmQJTGbN\nIM/jv1Nf9wKBgQC+9e24n9cOw6llXuFsv5Ib4Say5jDDW0/EcPUM2zfIUquhaUoO\n0OqArxLs50RlG5cdeG3CAlimjrhAs1Ai0HzM+vwdmD1C2vDasAPyS3erH0Kur95L\nkHgI9A7sMPQMrboHLQO2PBij2AwQ/RotUBUMTCzqSqITbTX46dP4L1BcCQKBgGgn\nT6MDjHPYg4C9k6CLjTlxIodgrNC/yMrswybWQrxhu7C5D3V9eGOIqoVUcqwPIJoz\nZenYMwp9W7vu+Ya2KuyK5gx/KD/NsEPC5e9HYMoT8nVXT1Ofat425OaciGqsxA8D\nTBGQeQ6gA/QTpwFLHKjo5qE8Mmop2QxjdDh/VFoDAoGBAKKPhRORcTKIrDA7oZSW\nqEes9jEeiSaCva3KJSu2VGBoII1vmxq6bat4sg4v4fprGH68Rt3qqyxh3OqLkbb+\nPSomg0URkUkp3avc9m2WaBrT8dPCP3GccGpzRDch+hPvdfkHhoYmjJJWBmbaaiik\nRBVUZ+lW2/rAk7yQKi/gSHvb\n-----END PRIVATE KEY-----\n",
+  "client_email": "cetech-admin@cetech-apps.iam.gserviceaccount.com",
+  "client_id": "102065385768998203877",
+  "auth_uri": "https://accounts.google.com/o/oauth2/auth",
+  "token_uri": "https://oauth2.googleapis.com/token",
+  "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
+  "client_x509_cert_url": "https://www.googleapis.com/robot/v1/metadata/x509/cetech-admin%40cetech-apps.iam.gserviceaccount.com"
+}
