@@ -1,6 +1,6 @@
 import os
 
-import tensorflow.lite as tflite
+import tflite_runtime.interpreter as tflite
 
 from tensorflow.keras.preprocessing import image
 from tensorflow.keras.models import load_model
