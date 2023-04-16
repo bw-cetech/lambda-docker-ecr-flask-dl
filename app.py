@@ -1,4 +1,4 @@
-#import serverless_wsgi
+import serverless_wsgi
 
 import flask
 from flask import request, redirect, flash, url_for, abort
