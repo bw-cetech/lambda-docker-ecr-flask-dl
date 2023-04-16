@@ -10,9 +10,6 @@ provider:
         path: ./
 
 functions:
-  tensorflow-endpoint: # get tensorflow from ECR image install
-   image:
-      uri: 795756113537.dkr.ecr.eu-west-1.amazonaws.com/lambda-tensorflow-example:latest
   app:
     image:
       name: appimage
