@@ -1,7 +1,6 @@
 import serverless_wsgi
 
-import flask
-from flask import request, redirect, flash, url_for, abort
+from flask import Flask, render_template, request, redirect, flash, url_for, abort
 
 import dash
 from dash.dependencies import Input, Output, State
@@ -13,7 +12,7 @@ import os
 
 from werkzeug.utils import secure_filename
 
-app = flask.Flask(__name__)
+app = Flask(__name__)
 app.config['MAX_CONTENT_LENGTH'] = 1024 * 1024 # increased as bad request with large images
 app.config['UPLOAD_EXTENSIONS'] = ['.jpg', '.jpeg', '.png', '.gif']
 app.config['UPLOAD_PATH'] = 'static/uploads'
@@ -29,8 +28,7 @@ def validate_image(stream):
 @app.route('/')
 def index():
     files = os.listdir(app.config['UPLOAD_PATH'])
-    return files
-    #return flask.render_template('index.html', files=files)
+    return render_template('index.html', files=files)
 
 @app.route('/', methods=['POST'])
 def upload_files():
@@ -45,7 +43,7 @@ def upload_files():
         #model = Model()
         # for testing
         # return filename
-        return flask.render_template("index.html", token=model.runInference(filename))
+        return render_template("index.html", token=model.runInference(filename))
     return redirect(url_for('index'))
 
 @app.route('/uploads/<filename>')
