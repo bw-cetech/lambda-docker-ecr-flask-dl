@@ -9,17 +9,17 @@ from dash.dependencies import Input, Output, State
 import imghdr
 import os
 
-from python.dlmodel import Model
+#from python.dlmodel import Model
 
 from werkzeug.utils import secure_filename
 
 app = flask.Flask(__name__)
-app.config['MAX_CONTENT_LENGTH'] = 1024 * 1024 # BW increased as bad request with large images
+app.config['MAX_CONTENT_LENGTH'] = 1024 * 1024 # increased as bad request with large images
 app.config['UPLOAD_EXTENSIONS'] = ['.jpg', '.jpeg', '.png', '.gif']
 app.config['UPLOAD_PATH'] = 'static/uploads'
 
 def validate_image(stream):
-    header = stream.read(1024)  # BW increased from 512 as bad request with large images
+    header = stream.read(1024)  # increased from 512 as bad request with large images
     stream.seek(0)  # reset stream pointer
     format = imghdr.what(None, header)
     if not format:
@@ -41,9 +41,8 @@ def upload_files():
                 file_ext != validate_image(uploaded_file.stream):
             abort(400)
         uploaded_file.save(os.path.join(app.config['UPLOAD_PATH'], filename))
-        model = Model()
-        # BW for testing
-        # return filename
+        # model = Model()
+
         return flask.render_template("index.html", token=model.runInference(filename))
     return redirect(url_for('index'))
 
