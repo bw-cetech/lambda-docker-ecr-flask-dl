@@ -52,7 +52,7 @@ def upload(filename):
     return send_from_directory(app.config['UPLOAD_PATH'], filename)
 
 def handler(event, context):
-    return serverless_wsgi.handle_request(app, event, context)
+    return serverless_wsgi.handle_request(main, event, context)
 
 #if __name__ == '__main__':
 #    app.run(host='0.0.0.0', debug=False, port=os.environ.get('PORT', 80))
