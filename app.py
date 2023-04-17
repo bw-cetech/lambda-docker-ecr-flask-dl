@@ -15,7 +15,7 @@ from werkzeug.utils import secure_filename
 app = Flask(__name__)
 app.config['MAX_CONTENT_LENGTH'] = 1024 * 1024 # increased as bad request with large images
 app.config['UPLOAD_EXTENSIONS'] = ['.jpg', '.jpeg', '.png', '.gif']
-app.config['UPLOAD_PATH'] = '../dev/static/uploads'
+app.config['UPLOAD_PATH'] = 'static/uploads'
 
 def validate_image(stream):
     header = stream.read(1024)  # increased from 512 as bad request with large images
@@ -25,12 +25,12 @@ def validate_image(stream):
         return None
     return '.' + format # (format if format != 'jpeg' else 'jpg') ASSUMES JPEG AND JPG FORMAT CAN BOTH BE UPLOADED
 
-@app.route('/')
+@app.route('/dev')
 def index():
     files = os.listdir(app.config['UPLOAD_PATH'])
     return render_template('index.html', files=files)
 
-@app.route('/', methods=['POST'])
+@app.route('/dev', methods=['POST'])
 def upload_files():
     uploaded_file = request.files['file']
     filename = secure_filename(uploaded_file.filename)
@@ -46,7 +46,7 @@ def upload_files():
         return render_template("index.html", token=model.runInference(filename))
     return redirect(url_for('index'))
 
-@app.route('/uploads/<filename>')
+@app.route('/dev/static/uploads/<filename>')
 def upload(filename):
     return send_from_directory(app.config['UPLOAD_PATH'], filename)
 
