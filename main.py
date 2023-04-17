@@ -9,7 +9,7 @@ from dash.dependencies import Input, Output, State
 import imghdr
 import os
 
-from python.dlmodel import Model
+#from python.dlmodel import Model
 
 from werkzeug.utils import secure_filename
 
@@ -41,7 +41,7 @@ def upload_files():
                 file_ext != validate_image(uploaded_file.stream):
             abort(400)
         uploaded_file.save(os.path.join(app.config['UPLOAD_PATH'], filename))
-        model = Model()
+        #model = Model()
         # for testing
         # return filename
         return flask.render_template("index.html", token=model.runInference(filename))
