@@ -10,7 +10,7 @@ provider:
         path: ./
 
 functions:
-  app:
+  main:
     image:
       name: appimage
     timeout: 30
