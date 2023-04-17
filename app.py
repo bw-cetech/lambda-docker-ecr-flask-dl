@@ -15,7 +15,7 @@ from werkzeug.utils import secure_filename
 app = Flask(__name__)
 app.config['MAX_CONTENT_LENGTH'] = 1024 * 1024 # increased as bad request with large images
 app.config['UPLOAD_EXTENSIONS'] = ['.jpg', '.jpeg', '.png', '.gif']
-app.config['UPLOAD_PATH'] = 'dev/static/uploads'
+app.config['UPLOAD_PATH'] = '../dev/static/uploads'
 
 def validate_image(stream):
     header = stream.read(1024)  # increased from 512 as bad request with large images
