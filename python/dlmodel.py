@@ -49,7 +49,7 @@ class Model():
         image_array = image_array / 255.0
      
         # .tflite model 
-        interpreter = tflite.Interpreter(model_path='..dev/python/tfliteConv-model.tflite')
+        interpreter = tflite.Interpreter(model_path='tfliteConv-model.tflite') # looks for model in same folder as this file
         interpreter.allocate_tensors()
 
         # Get a list of details from the model
