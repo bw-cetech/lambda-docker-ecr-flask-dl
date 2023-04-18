@@ -1,0 +1,18 @@
+{
+  "files": {
+    "main.css": "dev/static/react/css/main.6e038066.css",
+    "main.js": "dev/static/react/js/main.93315627.js",
+    "js/787.0f148dca.chunk.js": "dev/static/react/js/787.0f148dca.chunk.js",
+    "media/keras.ico": "dev/static/react/media/keras.0d80524fa4defcc35e4c.ico",
+    "media/tensorflow.ico": "dev/static/react/media/tensorflow.0c8779655fa06bbbdc77.ico",
+    "media/react.png": "dev/static/react/media/react.d5afe68d7e146975cd2c.png",
+    "../../templates/index.html": "dev/static/react/../../templates/index.html",
+    "main.6e038066.css.map": "dev/static/react/css/main.6e038066.css.map",
+    "main.93315627.js.map": "dev/static/react/js/main.93315627.js.map",
+    "787.0f148dca.chunk.js.map": "dev/static/react/js/787.0f148dca.chunk.js.map"
+  },
+  "entrypoints": [
+    "css/main.6e038066.css",
+    "js/main.93315627.js"
+  ]
+}
