@@ -29,12 +29,13 @@ def validate_image(stream):
 @main.route('/')
 def index():
     files = os.listdir(main.config['UPLOAD_PATH'])
-    #return flask.render_template('index.html', files=files)
-    return "<p>Hello, World!</p>"   
+    return flask.render_template('index.html', files=files)
+    # return "<p>Hello, World!</p>" test - this works
 
 @main.route('/', methods=['POST'])
 def upload_files():
-    uploaded_file = request.files['file']
+    return "<p>Hello, World!</p>"
+    """ uploaded_file = request.files['file']
     filename = secure_filename(uploaded_file.filename)
     if filename != '':
         file_ext = os.path.splitext(filename)[1]
@@ -45,7 +46,7 @@ def upload_files():
         model = Model()
         return os.path.join(main.config['UPLOAD_PATH'], filename) # for testing
         return flask.render_template("index.html", token=model.runInference(filename))
-    return redirect(url_for('index'))
+    return redirect(url_for('index')) """
 
 @main.route('/uploads/<filename>')
 def upload(filename):
