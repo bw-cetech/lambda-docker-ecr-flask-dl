@@ -49,7 +49,7 @@ class Model():
         image_array = image_array / 255.0
      
         # .tflite model 
-        interpreter = tflite.Interpreter(model_path='dev/python/tfliteConv-model.tflite')
+        interpreter = tflite.Interpreter(model_path='..dev/python/tfliteConv-model.tflite')
         interpreter.allocate_tensors()
 
         # Get a list of details from the model
@@ -66,18 +66,10 @@ class Model():
         # get the value of the output tensor
         predProb=interpreter.get_tensor(output_index)[0]
       
-        # .h5 model code - comment out above code under # .tflite model comment and uncomment lines below
-        # model = load_model("python/traffic-NOF-3dec21.h5") # load model changed from "best-model-traffic-ESC" # LOCAL VERSION
-        # predProb=model.predict([image_array])[0]
-
-
-        # pred=np.argmax(predProb) # replaced below to avoid numpy import
         predicted_label, predicted_prob = Model.maxes(predProb)
 
         print(predProb)
         print(predicted_label) # formerly print(pred)
-        #print_msg = str(category_names[pred]) + " (probability: " + str(np.max(model.predict_proba([image_array])))+ ")"
-        #print_msg = str(category_names[pred -1]) + " (probability: " +str(np.max(predProb)) + ")" # OLD
         print_msg = str(category_names[predicted_label-1]) + " (probability: " + str(predicted_prob) + ")" # NEW
 
         #return category_names[pred] #, pred_prob, msg
