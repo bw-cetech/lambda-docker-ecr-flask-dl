@@ -29,9 +29,9 @@ def validate_image(stream):
 @main.route('/')
 def index():
     files = os.listdir(main.config['UPLOAD_PATH'])
-    # return flask.render_template('index.html', files=files)
+    return flask.render_template('index.html', files=files)
     # return "<p>Hello, World!</p>" test - this works
-    return files
+    # return files test - this works on loading webpage, returns all files in static/uploads
 
 @main.route('/', methods=['POST'])
 def upload_files():
@@ -45,10 +45,11 @@ def upload_files():
                 file_ext != validate_image(uploaded_file.stream):
             abort(400)
         uploaded_file.save(os.path.join(main.config['UPLOAD_PATH'], filename))
-        model = Model()
-        return os.path.join(main.config['UPLOAD_PATH'], filename) # for testing
+        return os.path.join(main.config['UPLOAD_PATH'], filename)
+        # model = Model()
+"""         return os.path.join(main.config['UPLOAD_PATH'], filename) # for testing
         return flask.render_template("index.html", token=model.runInference(filename))
-    return redirect(url_for('index'))
+    return redirect(url_for('index')) """
 
 @main.route('/uploads/<filename>')
 def upload(filename):
