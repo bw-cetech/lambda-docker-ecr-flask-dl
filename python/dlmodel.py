@@ -27,7 +27,7 @@ class Model():
     
     def runInference(self,dlImage):
 
-        sign2infer = "static/uploads/" + dlImage
+        sign2infer = "dev/static/uploads/" + dlImage
 
         test_datagen =  ImageDataGenerator(
             rescale=1./255
@@ -49,7 +49,7 @@ class Model():
         image_array = image_array / 255.0
      
         # .tflite model 
-        interpreter = tflite.Interpreter(model_path='python/tfliteConv-model.tflite')
+        interpreter = tflite.Interpreter(model_path='dev/python/tfliteConv-model.tflite')
         interpreter.allocate_tensors()
 
         # Get a list of details from the model
