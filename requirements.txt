@@ -1,4 +1,3 @@
-os
 Flask>=1.1.2
 dash
 serverless-wsgi>=2.0.2

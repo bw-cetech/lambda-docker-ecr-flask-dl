@@ -29,8 +29,9 @@ def validate_image(stream):
 @main.route('/')
 def index():
     files = os.listdir(main.config['UPLOAD_PATH'])
-    return flask.render_template('index.html', files=files)
+    # return flask.render_template('index.html', files=files)
     # return "<p>Hello, World!</p>" test - this works
+    return files
 
 @main.route('/', methods=['POST'])
 def upload_files():
