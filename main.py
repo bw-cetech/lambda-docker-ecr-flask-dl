@@ -42,8 +42,7 @@ def upload_files():
             abort(400)
         uploaded_file.save(os.path.join(main.config['UPLOAD_PATH'], filename))
         model = Model()
-        # for testing
-        # return filename
+        return os.path.join(main.config['UPLOAD_PATH'], filename) # for testing
         return flask.render_template("index.html", token=model.runInference(filename))
     return redirect(url_for('index'))
 
