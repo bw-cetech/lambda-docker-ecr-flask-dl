@@ -41,11 +41,12 @@ def upload_files():
     # return filename  test - this works
     if filename != '':
         file_ext = os.path.splitext(filename)[1]
-        if file_ext not in main.config['UPLOAD_EXTENSIONS'] or \
+        return file_ext
+  """       if file_ext not in main.config['UPLOAD_EXTENSIONS'] or \
                 file_ext != validate_image(uploaded_file.stream):
             abort(400)
         uploaded_file.save(os.path.join(main.config['UPLOAD_PATH'], filename))
-        return os.path.join(main.config['UPLOAD_PATH'], filename)
+        return os.path.join(main.config['UPLOAD_PATH'], filename) """
         # model = Model()
 """         return os.path.join(main.config['UPLOAD_PATH'], filename) # for testing
         return flask.render_template("index.html", token=model.runInference(filename))
