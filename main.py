@@ -34,10 +34,11 @@ def index():
 
 @main.route('/', methods=['POST'])
 def upload_files():
-    return "<p>Hello, World!</p>"
-    """ uploaded_file = request.files['file']
+    # return "<p>Hello, World!</p>" test - this works
+    uploaded_file = request.files['file']
     filename = secure_filename(uploaded_file.filename)
-    if filename != '':
+    return filename
+    """ if filename != '':
         file_ext = os.path.splitext(filename)[1]
         if file_ext not in main.config['UPLOAD_EXTENSIONS'] or \
                 file_ext != validate_image(uploaded_file.stream):
