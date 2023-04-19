@@ -29,7 +29,7 @@ class Model():
 
         # sign2infer = "dev/static/uploads/" + dlImage
         sign2infer = os.path.join("/tmp/" + dlImage) # replaces above due to AWS write restrictions (uploaded image written in main.py)
-        return sign2infer # this works
+        # return sign2infer # this works
 
         test_datagen =  ImageDataGenerator(
             rescale=1./255
