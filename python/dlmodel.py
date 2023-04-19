@@ -1,5 +1,7 @@
 import os
 
+from PIL import Image # to deal with error: PIL.UnidentifiedImageError: cannot identify image file <_io.BytesIO object... 
+
 import tensorflow.lite as tflite
 
 from tensorflow.keras.preprocessing import image
