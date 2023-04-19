@@ -13,11 +13,13 @@ from python.dlmodel import Model
 
 from werkzeug.utils import secure_filename
 
+import PIL
+
+from tensorflow.keras.utils import load_img, img_to_array
+
 main = flask.Flask(__name__)
 main.config['MAX_CONTENT_LENGTH'] = 1024 * 1024 # increased as bad request with large images
 main.config['UPLOAD_EXTENSIONS'] = ['.jpg', '.jpeg', '.png', '.gif']
-# main.config['UPLOAD_PATH'] = 'static/uploads'
-main.config['UPLOAD_PATH'] = '/tmp/' # replaces above for AWS due to write issues with subfolders
 
 def validate_image(stream):
     header = stream.read(1024)  # increased from 512 as bad request with large images
@@ -29,10 +31,7 @@ def validate_image(stream):
 
 @main.route('/')
 def index():
-    files = os.listdir(main.config['UPLOAD_PATH'])
-    return flask.render_template('index.html', files=files)
-    # return "<p>Hello, World!</p>" test - this works
-    # return files test - this works on loading webpage, returns all files in static/uploads
+    return flask.render_template('index.html')
 
 @main.route('/', methods=['POST'])
 def upload_files():
@@ -47,20 +46,15 @@ def upload_files():
         """ if file_ext not in main.config['UPLOAD_EXTENSIONS'] or \
                 file_ext != validate_image(uploaded_file.stream):
             abort(400) """ # removed validation for now, can test as a post-process
-        uploaded_file.save(os.path.join(main.config['UPLOAD_PATH'], filename))
-        # uploaded_file.save(os.path.join('/tmp/' + filename)) # THIS HAS BEEN REPLACED ABOVE WITH UPDATED ENV VARIABLE UPLOAD_PATH # replaced line above for AWS due to write restrictions
-        # return os.path.join(main.config['UPLOAD_PATH'], filename) # test - this doesnt work
-        model = Model()
-        return flask.render_template("index.html", token=model.runInference(filename))
-    return redirect(url_for('index'))
 
-# @main.route('/uploads/<filename>')
-@main.route('/tmp/<filename>') # replaces above for AWS
-def upload(filename):
-    return send_from_directory(main.config['UPLOAD_PATH'], filename)
+        # refactored routine below to convert image to array before passing to inference module
+        img = PIL.Image.open(filename) # to address PIL errors
+        img_resized = img.resize((224,224))
+        img_array = img_to_array(img_resized) # originally img_to_array(img) using image.load_img above
+        model = Model()
+        return flask.render_template("index.html", token=model.runInference(img_array))
+
+    return redirect(url_for('index'))
 
 def handler(event, context):
     return serverless_wsgi.handle_request(main, event, context)
-
-#if __name__ == '__main__':
-#    app.run(host='0.0.0.0', debug=False, port=os.environ.get('PORT', 80))

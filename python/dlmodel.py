@@ -1,15 +1,11 @@
 import os
 
-from PIL import Image, ImageFile
-ImageFile.LOAD_TRUNCATED_IMAGES = True
-
 import tensorflow.lite as tflite
 
 from tensorflow.keras.preprocessing import image
 from tensorflow.keras.models import load_model
 from keras import layers, models, Model # , optimizers
 from keras.preprocessing.image import ImageDataGenerator
-from tensorflow.keras.utils import load_img, img_to_array
 
 class Model():
 
@@ -28,12 +24,7 @@ class Model():
     
     
     
-    def runInference(self,dlImage):
-
-        # sign2infer = "dev/static/uploads/" + dlImage
-        # below replaces above due to AWS write restrictions (uploaded image written in main.py)
-        sign2infer = "/tmp/" + dlImage 
-        # return sign2infer # this works
+    def runInference(self,dlImageArray):
 
         test_datagen =  ImageDataGenerator(
             rescale=1./255
@@ -42,13 +33,6 @@ class Model():
         img_height, img_width = 224,224
 
         category_names = ["Bikes","Forbidden_for_traffic", "Intersection", "No_entry", "Pedestrians", "Right_of_way", "Slippery_road", "Speed_60", "Stop", "Yield", "Festive"]
-
-        # img = image.load_img(sign2infer,color_mode='rgb', target_size=(224, 224))
-        # two lines below are alternative to line above
-        img = Image.open(sign2infer) # to address PIL errors
-        img_resized = img.resize((224,224))
-        
-        image_array = img_to_array(img_resized) # originally img_to_array(img) using image.load_img above
 
         # image_array = np.expand_dims(image_array, axis=0) # using below instead to avoid install of numpy
         # print(image_array.shape)
