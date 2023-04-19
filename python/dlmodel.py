@@ -31,7 +31,7 @@ class Model():
 
         # sign2infer = "dev/static/uploads/" + dlImage
         # below replaces above due to AWS write restrictions (uploaded image written in main.py)
-        sign2infer = "dev/tmp/" + dlImage  ## need ../tmp to go up a level as tmp folder created from main.py and PIL.Image.open needs relative path
+        sign2infer = "tmp/" + dlImage  ## need ../tmp to go up a level as tmp folder created from main.py and PIL.Image.open needs relative path
         # return sign2infer # this works
 
         test_datagen =  ImageDataGenerator(

@@ -47,7 +47,7 @@ def upload_files():
                 file_ext != validate_image(uploaded_file.stream):
             abort(400) """ # removed validation for now, can test as a post-process
         # uploaded_file.save(os.path.join(main.config['UPLOAD_PATH'], filename))
-        uploaded_file.save(os.path.join('/tmp/' + filename)) # replaced line above for AWS due to write restrictions
+        uploaded_file.save(os.path.join('tmp/' + filename)) # replaced line above for AWS due to write restrictions
         # return os.path.join(main.config['UPLOAD_PATH'], filename) # test - this doesnt work
         model = Model()
         # return os.path.join(main.config['UPLOAD_PATH'], filename) # for testing
