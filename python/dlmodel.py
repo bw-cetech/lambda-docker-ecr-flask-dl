@@ -1,10 +1,5 @@
 import os
 
-# to deal with error: PIL.UnidentifiedImageError: cannot identify image file <_io.BytesIO object... 
-# need to allow truncated images upload
-from PIL import Image, ImageFile
-ImageFile.LOAD_TRUNCATED_IMAGES = True
-
 import tensorflow.lite as tflite
 
 from tensorflow.keras.preprocessing import image
@@ -34,8 +29,7 @@ class Model():
 
         # sign2infer = "dev/static/uploads/" + dlImage
         # below replaces above due to AWS write restrictions (uploaded image written in main.py)
-        # NB ..tmp used as we are one subfolder down from main.py where we created the tmp folder
-        sign2infer = "../tmp/" + dlImage 
+        sign2infer = "/tmp/" + dlImage 
         # return sign2infer # this works
 
         test_datagen =  ImageDataGenerator(
@@ -46,7 +40,7 @@ class Model():
 
         category_names = ["Bikes","Forbidden_for_traffic", "Intersection", "No_entry", "Pedestrians", "Right_of_way", "Slippery_road", "Speed_60", "Stop", "Yield", "Festive"]
 
-        img = load_img(sign2infer,color_mode='rgb', target_size=(224, 224))
+        img = image.load_img(sign2infer,color_mode='rgb', target_size=(224, 224))
         image_array = img_to_array(img)
 
         # image_array = np.expand_dims(image_array, axis=0) # using below instead to avoid install of numpy
