@@ -29,8 +29,9 @@ class Model():
 
         # sign2infer = "dev/static/uploads/" + dlImage
         sign2infer = "/tmp/" + dlImage # replaces above due to AWS write restrictions (uploaded image written in main.py)
+        return sign2infer
 
-        test_datagen =  ImageDataGenerator(
+        """ test_datagen =  ImageDataGenerator(
             rescale=1./255
         )
 
@@ -74,7 +75,7 @@ class Model():
         print_msg = str(category_names[predicted_label-1]) + " (probability: " + str(predicted_prob) + ")" # NEW
 
         #return category_names[pred] #, pred_prob, msg
-        return print_msg
+        return print_msg """
 
         # for testing function is called - comment out rest of function
 """         myString = "hello"
