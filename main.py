@@ -48,8 +48,10 @@ def upload_files():
                 file_ext != validate_image(uploaded_file.stream):
             abort(400) """ # removed validation for now, can test as a post-process
 
-        # refactored routine below to convert image to array before passing to inference module       
-        img = PIL.Image.open(uploaded_file) # to address PIL errors
+        # refactored routine below to convert image to array before passing to inference module
+        savedImg = uploaded_file.save(os.path.join(main.config['UPLOAD_FOLDER'], filename))
+        
+        img = PIL.Image.open(os.path.join(main.config['UPLOAD_FOLDER'], filename)) # to address PIL errors
         img_resized = img.resize((224,224))
         img_array = img_to_array(img_resized) # originally img_to_array(img) using image.load_img above
         model = Model()
