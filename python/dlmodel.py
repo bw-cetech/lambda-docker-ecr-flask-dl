@@ -1,6 +1,9 @@
 import os
 
-# from PIL import Image # to deal with error: PIL.UnidentifiedImageError: cannot identify image file <_io.BytesIO object... 
+# to deal with error: PIL.UnidentifiedImageError: cannot identify image file <_io.BytesIO object... 
+# need to allow truncated images upload
+from PIL import Image, ImageFile
+ImageFile.LOAD_TRUNCATED_IMAGES = True
 
 import tensorflow.lite as tflite
 
@@ -30,7 +33,7 @@ class Model():
     def runInference(self,dlImage):
 
         # sign2infer = "dev/static/uploads/" + dlImage
-        sign2infer = "tmp/" + dlImage # replaces above due to AWS write restrictions (uploaded image written in main.py)
+        sign2infer = "/tmp/" + dlImage # replaces above due to AWS write restrictions (uploaded image written in main.py)
         # return sign2infer # this works
 
         test_datagen =  ImageDataGenerator(
