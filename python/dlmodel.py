@@ -37,7 +37,7 @@ class Model():
         # image_array = np.expand_dims(image_array, axis=0) # using below instead to avoid install of numpy
         # print(image_array.shape)
         # shape should be (1, 224, 224, 3)
-        image_array = image_array.reshape(1, image_array.shape[0],image_array.shape[1],image_array.shape[2]) 
+        image_array = dlImageArray.reshape(1, dlImageArray.shape[0],dlImageArray.shape[1],dlImageArray.shape[2]) 
 
         #normalize image - important otherwise all classifications will have probability 1
         image_array = image_array / 255.0
