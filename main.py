@@ -16,7 +16,8 @@ from werkzeug.utils import secure_filename
 main = flask.Flask(__name__)
 main.config['MAX_CONTENT_LENGTH'] = 1024 * 1024 # increased as bad request with large images
 main.config['UPLOAD_EXTENSIONS'] = ['.jpg', '.jpeg', '.png', '.gif']
-main.config['UPLOAD_PATH'] = 'static/uploads'
+# main.config['UPLOAD_PATH'] = 'static/uploads'
+main.config['UPLOAD_PATH'] = '/tmp/' # replaces above for AWS due to write issues with subfolders
 
 def validate_image(stream):
     header = stream.read(1024)  # increased from 512 as bad request with large images
@@ -46,15 +47,15 @@ def upload_files():
         """ if file_ext not in main.config['UPLOAD_EXTENSIONS'] or \
                 file_ext != validate_image(uploaded_file.stream):
             abort(400) """ # removed validation for now, can test as a post-process
-        # uploaded_file.save(os.path.join(main.config['UPLOAD_PATH'], filename))
-        uploaded_file.save(os.path.join('tmp/' + filename)) # replaced line above for AWS due to write restrictions
+        uploaded_file.save(os.path.join(main.config['UPLOAD_PATH'], filename))
+        # uploaded_file.save(os.path.join('/tmp/' + filename)) # THIS HAS BEEN REPLACED ABOVE WITH UPDATED ENV VARIABLE UPLOAD_PATH # replaced line above for AWS due to write restrictions
         # return os.path.join(main.config['UPLOAD_PATH'], filename) # test - this doesnt work
         model = Model()
-        # return os.path.join(main.config['UPLOAD_PATH'], filename) # for testing
         return flask.render_template("index.html", token=model.runInference(filename))
     return redirect(url_for('index'))
 
-@main.route('/uploads/<filename>')
+# @main.route('/uploads/<filename>')
+@main.route('/tmp/<filename>') # replaces above for AWS
 def upload(filename):
     return send_from_directory(main.config['UPLOAD_PATH'], filename)
 
