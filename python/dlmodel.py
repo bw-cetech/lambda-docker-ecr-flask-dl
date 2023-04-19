@@ -31,7 +31,7 @@ class Model():
 
         # sign2infer = "dev/static/uploads/" + dlImage
         # below replaces above due to AWS write restrictions (uploaded image written in main.py)
-        sign2infer = "/tmp/" + dlImage 
+        sign2infer = "../tmp/" + dlImage  ## need ../tmp to go up a level as tmp folder created from main.py and PIL.Image.open needs relative path
         # return sign2infer # this works
 
         test_datagen =  ImageDataGenerator(
@@ -42,7 +42,7 @@ class Model():
 
         category_names = ["Bikes","Forbidden_for_traffic", "Intersection", "No_entry", "Pedestrians", "Right_of_way", "Slippery_road", "Speed_60", "Stop", "Yield", "Festive"]
 
-        # img = image.load_img(buf,color_mode='rgb', target_size=(224, 224))
+        # img = image.load_img(sign2infer,color_mode='rgb', target_size=(224, 224))
         # two lines below are alternative to line above
         img = PIL.Image.open(sign2infer) # to address PIL errors
         img_resized = img.resize((224,224))
