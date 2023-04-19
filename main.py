@@ -49,7 +49,7 @@ def upload_files():
             abort(400) """ # removed validation for now, can test as a post-process
 
         # refactored routine below to convert image to array before passing to inference module
-        savedImg = uploaded_file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
+        savedImg = uploaded_file.save(os.path.join(main.config['UPLOAD_FOLDER'], filename))
         
         img = PIL.Image.open(savedImg) # to address PIL errors
         img_resized = img.resize((224,224))
