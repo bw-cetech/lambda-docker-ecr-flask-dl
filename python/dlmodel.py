@@ -33,7 +33,9 @@ class Model():
     def runInference(self,dlImage):
 
         # sign2infer = "dev/static/uploads/" + dlImage
-        sign2infer = "/tmp/" + dlImage # replaces above due to AWS write restrictions (uploaded image written in main.py)
+        # below replaces above due to AWS write restrictions (uploaded image written in main.py)
+        # NB ..tmp used as we are one subfolder down from main.py where we created the tmp folder
+        sign2infer = "../tmp/" + dlImage 
         # return sign2infer # this works
 
         test_datagen =  ImageDataGenerator(
