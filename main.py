@@ -42,16 +42,16 @@ def upload_files():
     if filename != '':
         file_ext = os.path.splitext(filename)[1]
         # return file_ext # test - this is returned
-        return validate_image(uploaded_file.stream)
-"""         if file_ext not in main.config['UPLOAD_EXTENSIONS'] or \
+        # return validate_image(uploaded_file.stream) # test - this is not returned
+        """ if file_ext not in main.config['UPLOAD_EXTENSIONS'] or \
                 file_ext != validate_image(uploaded_file.stream):
-            abort(400)
-        uploaded_file.save(os.path.join(main.config['UPLOAD_PATH'], filename)) """
+            abort(400) """ # removed validation for now, can test as a post-process
+        uploaded_file.save(os.path.join(main.config['UPLOAD_PATH'], filename))
         # return os.path.join(main.config['UPLOAD_PATH'], filename) # test - this doesnt work
-        # model = Model()
-"""         return os.path.join(main.config['UPLOAD_PATH'], filename) # for testing
+        model = Model()
+        # return os.path.join(main.config['UPLOAD_PATH'], filename) # for testing
         return flask.render_template("index.html", token=model.runInference(filename))
-    return redirect(url_for('index')) """
+    return redirect(url_for('index'))
 
 @main.route('/uploads/<filename>')
 def upload(filename):
