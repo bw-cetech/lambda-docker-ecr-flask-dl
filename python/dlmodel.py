@@ -1,5 +1,7 @@
 import os
 
+import PIL
+
 import tensorflow.lite as tflite
 
 from tensorflow.keras.preprocessing import image
@@ -40,8 +42,12 @@ class Model():
 
         category_names = ["Bikes","Forbidden_for_traffic", "Intersection", "No_entry", "Pedestrians", "Right_of_way", "Slippery_road", "Speed_60", "Stop", "Yield", "Festive"]
 
-        img = image.load_img(sign2infer,color_mode='rgb', target_size=(224, 224))
-        image_array = img_to_array(img)
+        # img = image.load_img(buf,color_mode='rgb', target_size=(224, 224))
+        # two lines below are alternative to line above
+        img = PIL.Image.open(sign2infer) # to address PIL errors
+        img_resized = img.resize((224,224))
+        
+        image_array = img_to_array(img_resized) # originally img_to_array(img) using image.load_img above
 
         # image_array = np.expand_dims(image_array, axis=0) # using below instead to avoid install of numpy
         # print(image_array.shape)
