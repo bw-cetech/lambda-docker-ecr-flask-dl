@@ -42,7 +42,7 @@ def upload_files():
     if filename != '':
         file_ext = os.path.splitext(filename)[1]
         return file_ext
-  """       if file_ext not in main.config['UPLOAD_EXTENSIONS'] or \
+"""         if file_ext not in main.config['UPLOAD_EXTENSIONS'] or \
                 file_ext != validate_image(uploaded_file.stream):
             abort(400)
         uploaded_file.save(os.path.join(main.config['UPLOAD_PATH'], filename))
