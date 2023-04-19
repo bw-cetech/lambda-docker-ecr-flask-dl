@@ -1,7 +1,7 @@
 import os
 
-import PIL
-PIL.ImageFile.LOAD_TRUNCATED_IMAGES = True
+from PIL import Image, ImageFile
+ImageFile.LOAD_TRUNCATED_IMAGES = True
 
 import tensorflow.lite as tflite
 
@@ -45,7 +45,7 @@ class Model():
 
         # img = image.load_img(sign2infer,color_mode='rgb', target_size=(224, 224))
         # two lines below are alternative to line above
-        img = PIL.Image.open(sign2infer) # to address PIL errors
+        img = Image.open(sign2infer) # to address PIL errors
         img_resized = img.resize((224,224))
         
         image_array = img_to_array(img_resized) # originally img_to_array(img) using image.load_img above
