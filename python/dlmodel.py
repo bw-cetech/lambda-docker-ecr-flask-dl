@@ -1,6 +1,7 @@
 import os
 
 import PIL
+PIL.ImageFile.LOAD_TRUNCATED_IMAGES = True
 
 import tensorflow.lite as tflite
 
