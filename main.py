@@ -65,9 +65,9 @@ def upload_files():
         
         # replaces above nightmare load_img / PIL issues
         import imageio.v3 as iio
-        # import io
-        # f = io.BytesIO(response.content)
-        img = iio.imread(filename, index=None)
+        import io
+        f = io.BytesIO(filename)
+        img = iio.imread(f, index=None)
         img = Image.fromarray(img).resize((224, 224))
 
         # below test specific image load from AWS - FINALLY THIS WORKS (AFTER ADDING RELATIVE PATH TO TF MODEL)!
