@@ -13,7 +13,7 @@ from python.dlmodel import Model
 
 from werkzeug.utils import secure_filename
 
-from tensorflow.keras.preprocessing import image # NB using this instead of import PIL to handle errors reading images. See also https://github.com/python-pillow/Pillow/issues/4678
+#from tensorflow.keras.preprocessing import image # NB using this instead of import PIL to handle errors reading images. See also https://github.com/python-pillow/Pillow/issues/4678
 from tensorflow.keras.utils import load_img, img_to_array
 
 main = flask.Flask(__name__)
@@ -50,9 +50,9 @@ def upload_files():
         # refactored routine below to convert image to array before passing to inference module
         savedImg = uploaded_file.save(os.path.join(main.config['UPLOAD_FOLDER'], filename))
         
-        img = image.open(os.path.join(main.config['UPLOAD_FOLDER'], filename)) # see also https://github.com/python-pillow/Pillow/issues/4678 to address PIL errors
-        img_resized = img.resize((224,224))
-        img_array = img_to_array(img_resized) # originally img_to_array(img) using image.load_img above
+        img = load_img(os.path.join(main.config['UPLOAD_FOLDER'], filename),color_mode='rgb', target_size=(224, 224))
+        image_array = img_to_array(img)
+
         model = Model()
         return flask.render_template("index.html", token=model.runInference(img_array))
 

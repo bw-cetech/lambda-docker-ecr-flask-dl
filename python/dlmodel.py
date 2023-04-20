@@ -2,7 +2,6 @@ import os
 
 import tensorflow.lite as tflite
 
-from tensorflow.keras.models import load_model
 from keras import layers, models, Model # , optimizers
 from keras.preprocessing.image import ImageDataGenerator
 
