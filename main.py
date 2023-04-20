@@ -61,7 +61,7 @@ def upload_files():
         savedImg = uploaded_file.save(filename)
 
         # img = load_img(os.path.join(app.config['UPLOAD_FOLDER'], filename),color_mode='rgb', target_size=(224, 224)) # works locally, but not on aws
-        img = load_img(filename, color_mode='rgb', target_size=(224, 224)) 
+        img = load_img('00015_00010_00027.png', color_mode='rgb', target_size=(224, 224)) 
 
         os.chdir(currentPath) # change back
 
