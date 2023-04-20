@@ -54,8 +54,8 @@ def upload_files():
         
         img = load_img(os.path.join(main.config['UPLOAD_FOLDER'], filename),color_mode='rgb', target_size=(224, 224)) """
         
-        uploaded_file.save(os.path.join(app.config['UPLOAD_PATH'], filename))
-        img = load_img(os.path.join(app.config['UPLOAD_PATH'], filename),color_mode='rgb', target_size=(224, 224))
+        uploaded_file.save(os.path.join(main.config['UPLOAD_PATH'], filename))
+        img = load_img(os.path.join(main.config['UPLOAD_PATH'], filename),color_mode='rgb', target_size=(224, 224))
 
         # a new approach to change directly to AWS tmp storage location
         """ currentPath = os.getcwd() 
