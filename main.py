@@ -54,7 +54,7 @@ def upload_files():
         
         img = load_img(os.path.join(main.config['UPLOAD_FOLDER'], filename),color_mode='rgb', target_size=(224, 224)) """
         
-        uploaded_file.save(os.path.join(main.config['UPLOAD_FOLDER'], filename))
+        #uploaded_file.save(os.path.join(main.config['UPLOAD_FOLDER'], filename))
         #img = load_img(os.path.join(main.config['UPLOAD_FOLDER'], filename),color_mode='rgb', target_size=(224, 224))
 
         # a new approach to change directly to AWS tmp storage location
@@ -68,9 +68,11 @@ def upload_files():
         
         # replaces above nightmare load_img / PIL issues
         import imageio.v3 as iio
-        #import io
+        import io
+        buffer = io.BytesIO()
+        uploaded_file.save(os.path.join(main.config['UPLOAD_FOLDER'],buffer))
         #f = io.BytesIO(uploaded_file.stream) # should be similar to io.BytesIO(response.content)
-        img = iio.imread(os.path.join(main.config['UPLOAD_FOLDER'], filename), index=None)
+        img = iio.imread(os.path.join(main.config['UPLOAD_FOLDER'], buffer), index=None)
         img = Image.fromarray(img).resize((224, 224))
 
         # below test specific image load from AWS - FINALLY THIS WORKS (AFTER ADDING RELATIVE PATH TO TF MODEL)!
