@@ -64,10 +64,23 @@ def upload_files():
         # img = load_img(filename, color_mode='rgb', target_size=(224, 224)) 
         
         # replaces above nightmare load_img / PIL issues
-        import imageio.v3 as iio
+        """ import imageio.v3 as iio
         # import io
         # f = io.BytesIO(response.content)
         img = iio.imread(filename, index=None)
+        img = Image.fromarray(img).resize((224, 224)) """
+
+
+        # below test specific image load from AWS
+        import requests
+        import io
+        import imageio.v3 as iio
+        image_url = 'https://github.com/bw-cetech/lambda-docker-ecr-flask-dl/blob/bf3e205ff91ef7202cb067552d3685f33cf6e9b4/static/uploads/00015_00010_00027.png?raw=true'
+        response = requests.get(image_url)
+        response.raise_for_status()
+        f = io.BytesIO(response.content)
+        img = iio.imread(f, index=None) # instead of below
+        # img = load_img(f, color_mode='rgb', target_size=(224, 224)) # DOESNT WORK but filename instead of f works
         img = Image.fromarray(img).resize((224, 224))
 
 
