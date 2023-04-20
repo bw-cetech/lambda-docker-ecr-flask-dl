@@ -47,10 +47,21 @@ def upload_files():
                 file_ext != validate_image(uploaded_file.stream):
             abort(400) """ # removed validation for now, can test as a post-process
 
-        # refactored routine below to convert image to array before passing to inference module
-        savedImg = uploaded_file.save(os.path.join(main.config['UPLOAD_FOLDER'], filename))
+        """ savedImg = uploaded_file.save(os.path.join(main.config['UPLOAD_FOLDER'], filename))
         
-        img = load_img(os.path.join(main.config['UPLOAD_FOLDER'], filename),color_mode='rgb', target_size=(224, 224))
+        img = load_img(os.path.join(main.config['UPLOAD_FOLDER'], filename),color_mode='rgb', target_size=(224, 224)) """
+        
+        # a new approach to change directly to AWS tmp storage location
+        currentPath = os.getcwd() 
+        os.chdir('/tmp/')
+        # savedImg = uploaded_file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
+        savedImg = uploaded_file.save(filename)
+
+        # img = load_img(os.path.join(app.config['UPLOAD_FOLDER'], filename),color_mode='rgb', target_size=(224, 224)) # works locally, but not on aws
+        img = load_img(filename, color_mode='rgb', target_size=(224, 224)) 
+
+        os.chdir(currentPath) # change back
+
         img_array = img_to_array(img)
 
         model = Model()
