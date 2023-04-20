@@ -41,7 +41,7 @@ class Model():
         image_array = image_array / 255.0
      
         # .tflite model 
-        interpreter = tflite.Interpreter(model_path='./tfliteConv-model.tflite') # looks for model in same folder. NB as we are setting up an instance of the MOdel class, the actual invocation is at the same level as main python script (main.py)
+        interpreter = tflite.Interpreter(model_path='./python/tfliteConv-model.tflite') # looks for model in same folder. NB as we are setting up an instance of the MOdel class, the actual invocation is at the same level as main python script (main.py)
         interpreter.allocate_tensors()
 
         # Get a list of details from the model
