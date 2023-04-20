@@ -67,7 +67,7 @@ def upload_files():
         import imageio.v3 as iio
         # import io
         # f = io.BytesIO(response.content)
-        img = iio.imread(filename, index=None) # instead of below
+        img = iio.imread(filename, index=None)
         img = Image.fromarray(img).resize((224, 224))
 
 
