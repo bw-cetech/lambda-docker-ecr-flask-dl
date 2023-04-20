@@ -50,7 +50,7 @@ def upload_files():
         # refactored routine below to convert image to array before passing to inference module
         savedImg = uploaded_file.save(os.path.join(main.config['UPLOAD_FOLDER'], filename))
         
-        img = Image.open(os.path.join(main.config['UPLOAD_FOLDER'], filename)) # see also https://github.com/python-pillow/Pillow/issues/4678 to address PIL errors
+        img = image.open(os.path.join(main.config['UPLOAD_FOLDER'], filename)) # see also https://github.com/python-pillow/Pillow/issues/4678 to address PIL errors
         img_resized = img.resize((224,224))
         img_array = img_to_array(img_resized) # originally img_to_array(img) using image.load_img above
         model = Model()
