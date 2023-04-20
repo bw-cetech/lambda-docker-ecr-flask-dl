@@ -66,7 +66,7 @@ def upload_files():
         # replaces above nightmare load_img / PIL issues
         import imageio.v3 as iio
         import io
-        f = io.BytesIO(filename)
+        f = io.BytesIO(uploaded_file)
         img = iio.imread(f, index=None)
         img = Image.fromarray(img).resize((224, 224))
 
