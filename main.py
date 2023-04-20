@@ -51,7 +51,7 @@ def upload_files():
         savedImg = uploaded_file.save(os.path.join(main.config['UPLOAD_FOLDER'], filename))
         
         img = load_img(os.path.join(main.config['UPLOAD_FOLDER'], filename),color_mode='rgb', target_size=(224, 224))
-        image_array = img_to_array(img)
+        img_array = img_to_array(img)
 
         model = Model()
         return flask.render_template("index.html", token=model.runInference(img_array))
