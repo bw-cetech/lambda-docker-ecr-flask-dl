@@ -13,6 +13,7 @@ from python.dlmodel import Model
 
 from werkzeug.utils import secure_filename
 
+from PIL import Image
 PIL.ImageFile.LOAD_TRUNCATED_IMAGES = True
 
 #from tensorflow.keras.preprocessing import image # NB using this instead of import PIL to handle errors reading images. See also https://github.com/python-pillow/Pillow/issues/4678
