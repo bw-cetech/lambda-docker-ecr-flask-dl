@@ -58,24 +58,23 @@ def upload_files():
         #img = load_img(os.path.join(main.config['UPLOAD_FOLDER'], filename),color_mode='rgb', target_size=(224, 224))
 
         # a new approach to change directly to AWS tmp storage location
-        """ currentPath = os.getcwd() 
+        currentPath = os.getcwd() 
         os.chdir('/tmp/')
         # savedImg = uploaded_file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
-        savedImg = uploaded_file.save(filename) """
+        savedImg = uploaded_file.save(filename)
 
         # img = load_img(os.path.join(app.config['UPLOAD_FOLDER'], filename),color_mode='rgb', target_size=(224, 224)) # works locally, but not on aws
         # img = load_img(filename, color_mode='rgb', target_size=(224, 224)) 
         
         # replaces above nightmare load_img / PIL issues
         import imageio as iio
-        iio.plugins.freeimage.download()
-        iio.use_plugin('freeimage')
+        # import imageio_freeimage
 
-        import io
+        """ import io
         buffer = io.BytesIO()
-        uploaded_file.save(buffer)
+        uploaded_file.save(buffer) # this is an alternative to saving on AWS (/tmp/) which appears to be impossible to solve before I am dead from trying """
         #f = io.BytesIO(uploaded_file.stream) # should be similar to io.BytesIO(response.content)
-        img = iio.imread(buffer, format='PNG')
+        img = iio.imread(filename, format='PNG') # or try again buffer ?
         img = Image.fromarray(img).resize((224, 224))
 
         # below test specific image load from AWS - FINALLY THIS WORKS (AFTER ADDING RELATIVE PATH TO TF MODEL)!
@@ -91,7 +90,7 @@ def upload_files():
         img = Image.fromarray(img).resize((224, 224)) """
 
 
-        # os.chdir(currentPath) # change back
+        os.chdir(currentPath) # change back
 
         img_array = img_to_array(img)
 
