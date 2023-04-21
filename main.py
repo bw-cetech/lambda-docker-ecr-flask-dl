@@ -76,7 +76,7 @@ def upload_files():
         #f = io.BytesIO(uploaded_file.stream) # should be similar to io.BytesIO(response.content)
         import cv2
         img = cv2.imread(os.path.join(main.config['UPLOAD_FOLDER'], filename))  # cv2.imread not reading - None Type
-
+        print(os.path.join(main.config['UPLOAD_FOLDER'], filename))
         # test if file has really been saved
         """ a = os.listdir('/tmp')
         for x in a:
