@@ -5,6 +5,5 @@ tensorflow-cpu
 requests
 Pillow
 # opencv-python-headless
-imageio
-#imageio[pyav]
+imageio[pyav]
 #imageio[opencv]
