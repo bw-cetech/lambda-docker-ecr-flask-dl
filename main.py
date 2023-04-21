@@ -90,9 +90,9 @@ def upload_files():
         #img = Image.fromarray(img).resize((224, 224))
 
         # below test specific image load from AWS - FINALLY THIS WORKS (AFTER ADDING RELATIVE PATH TO TF MODEL)!
-        import requests
-        import io
-        import imageio.v3 as iio # NB v3 needed to avoid this error: imageio.core.legacy_plugin_wrapper.LegacyPlugin.read() got multiple values for keyword argument 'index'
+        #import requests
+        #import io
+        #import imageio.v3 as iio # NB v3 needed to avoid this error: imageio.core.legacy_plugin_wrapper.LegacyPlugin.read() got multiple values for keyword argument 'index'
         # image_url = 'https://github.com/bw-cetech/lambda-docker-ecr-flask-dl/blob/bf3e205ff91ef7202cb067552d3685f33cf6e9b4/static/uploads/00015_00010_00027.png?raw=true'
         # response = requests.get(image_url ) # for testing
         # response.raise_for_status()
@@ -100,10 +100,10 @@ def upload_files():
         # img = iio.imread(f, index=None) # instead of below
         # img = load_img(f, color_mode='rgb', target_size=(224, 224)) # DOESNT WORK but filename instead of f works
 
-        import urllib
+        #import urllib
         from PIL import Image
 
-        img = Image.open(urllib.request.urlopen(os.path.join(main.config['UPLOAD_FOLDER'], filename)))     
+        img = Image.open(uploaded_file.stream)   
         img = Image.fromarray(img).resize((224, 224))
 
         # os.chdir(currentPath) # change back
