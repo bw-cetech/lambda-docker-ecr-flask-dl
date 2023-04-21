@@ -78,14 +78,14 @@ def upload_files():
         img = cv2.imread(os.path.join('r', main.config['UPLOAD_FOLDER'], filename))  # cv2.imread not reading - None Type
 
         # test below image has been read, and its size
-        # return flask.render_template("index.html", token=os.path.join('r', main.config['UPLOAD_FOLDER'], filename)) 
+        return flask.render_template("index.html", token=os.path.join('r', main.config['UPLOAD_FOLDER'], filename, 'EXTRA:', img, img.shape)) 
 
-        img = cv2.resize(img, (224, 224))
+        """ img = cv2.resize(img, (224, 224))
         #img = iio.imread(filename, format='PNG') # or try again buffer ?
         #img = Image.fromarray(img).resize((224, 224))
 
         # below test specific image load from AWS - FINALLY THIS WORKS (AFTER ADDING RELATIVE PATH TO TF MODEL)!
-        """ import requests
+        import requests
         import io
         import imageio.v3 as iio
         image_url = 'https://github.com/bw-cetech/lambda-docker-ecr-flask-dl/blob/bf3e205ff91ef7202cb067552d3685f33cf6e9b4/static/uploads/00015_00010_00027.png?raw=true'
@@ -94,7 +94,7 @@ def upload_files():
         f = io.BytesIO(response.content)
         img = iio.imread(f, index=None) # instead of below
         # img = load_img(f, color_mode='rgb', target_size=(224, 224)) # DOESNT WORK but filename instead of f works
-        img = Image.fromarray(img).resize((224, 224)) """
+        img = Image.fromarray(img).resize((224, 224))
 
 
         os.chdir(currentPath) # change back
@@ -102,7 +102,7 @@ def upload_files():
         img_array = img_to_array(img)
 
         model = Model()
-        return flask.render_template("index.html", token=model.runInference(img_array))
+        return flask.render_template("index.html", token=model.runInference(img_array)) """
 
     return redirect(url_for('index'))
 
