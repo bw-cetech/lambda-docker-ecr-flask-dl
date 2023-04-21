@@ -13,8 +13,8 @@ from python.dlmodel import Model
 
 from werkzeug.utils import secure_filename
 
-# from PIL import Image, ImageFile
-# ImageFile.LOAD_TRUNCATED_IMAGES = True
+from PIL import Image, ImageFile
+ImageFile.LOAD_TRUNCATED_IMAGES = True
 
 #from tensorflow.keras.preprocessing import image # NB using this instead of import PIL to handle errors reading images. See also https://github.com/python-pillow/Pillow/issues/4678
 from tensorflow.keras.utils import load_img, img_to_array
@@ -58,10 +58,10 @@ def upload_files():
         #img = load_img(os.path.join(main.config['UPLOAD_FOLDER'], filename),color_mode='rgb', target_size=(224, 224))
 
         # a new approach to change directly to AWS tmp storage location
-        currentPath = os.getcwd() 
+        """ currentPath = os.getcwd() 
         os.chdir('/tmp/')
         # savedImg = uploaded_file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
-        savedImg = uploaded_file.save(filename)
+        savedImg = uploaded_file.save(filename) """
 
         # img = load_img(os.path.join(app.config['UPLOAD_FOLDER'], filename),color_mode='rgb', target_size=(224, 224)) # works locally, but not on aws
         # img = load_img(filename, color_mode='rgb', target_size=(224, 224)) 
@@ -74,9 +74,9 @@ def upload_files():
         buffer = io.BytesIO()
         uploaded_file.save(buffer) # this is an alternative to saving on AWS (/tmp/) which appears to be impossible to solve before I am dead from trying """
         #f = io.BytesIO(uploaded_file.stream) # should be similar to io.BytesIO(response.content)
-        import cv2
-        path = r'/tmp/00015_00010_00027.png'
-        img = cv2.imread(path)  # cv2.imread not reading - None Type
+        # import cv2
+        # path = r'/tmp/00015_00010_00027.png'
+        # img = cv2.imread(path)  # cv2.imread not reading - None Type
         # test if file has really been saved
         """ a = os.listdir('/tmp')
         for x in a:
@@ -85,23 +85,23 @@ def upload_files():
         # test below image has been read, and its size
         # return flask.render_template("index.html", token=os.path.join('r', main.config['UPLOAD_FOLDER'], filename, 'EXTRA:', img, img.shape)) 
 
-        img = cv2.resize(img, (224, 224))
+        # img = cv2.resize(img, (224, 224))
         #img = iio.imread(filename, format='PNG') # or try again buffer ?
         #img = Image.fromarray(img).resize((224, 224))
 
         # below test specific image load from AWS - FINALLY THIS WORKS (AFTER ADDING RELATIVE PATH TO TF MODEL)!
-        """ import requests
+        import requests
         import io
-        import imageio.v3 as iio
+        import imageio as iio
         image_url = 'https://github.com/bw-cetech/lambda-docker-ecr-flask-dl/blob/bf3e205ff91ef7202cb067552d3685f33cf6e9b4/static/uploads/00015_00010_00027.png?raw=true'
         response = requests.get(image_url)
         response.raise_for_status()
         f = io.BytesIO(response.content)
         img = iio.imread(f, index=None) # instead of below
         # img = load_img(f, color_mode='rgb', target_size=(224, 224)) # DOESNT WORK but filename instead of f works
-        img = Image.fromarray(img).resize((224, 224)) """
+        img = Image.fromarray(img).resize((224, 224))
 
-        os.chdir(currentPath) # change back
+        # os.chdir(currentPath) # change back
 
         img_array = img_to_array(img)
 
