@@ -63,7 +63,7 @@ def upload_files():
         # savedImg = uploaded_file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
         savedImg = uploaded_file.save(filename) """
 
-        # img = load_img(os.path.join(app.config['UPLOAD_FOLDER'], filename),color_mode='rgb', target_size=(224, 224)) # works locally, but not on aws
+        # img = load_img(os.path.join(main.config['UPLOAD_FOLDER'], filename),color_mode='rgb', target_size=(224, 224)) # works locally, but not on aws
         # img = load_img(filename, color_mode='rgb', target_size=(224, 224)) 
         
         # replaces above nightmare load_img / PIL issues
@@ -103,7 +103,7 @@ def upload_files():
         import urllib
         from PIL import Image
 
-        img = Image.open(urllib.request.urlopen(os.path.join(app.config['UPLOAD_FOLDER'], filename)))     
+        img = Image.open(urllib.request.urlopen(os.path.join(main.config['UPLOAD_FOLDER'], filename)))     
         img = Image.fromarray(img).resize((224, 224))
 
         # os.chdir(currentPath) # change back
