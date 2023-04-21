@@ -13,8 +13,8 @@ from python.dlmodel import Model
 
 from werkzeug.utils import secure_filename
 
-from PIL import Image, ImageFile
-ImageFile.LOAD_TRUNCATED_IMAGES = True
+# from PIL import Image, ImageFile
+# ImageFile.LOAD_TRUNCATED_IMAGES = True
 
 #from tensorflow.keras.preprocessing import image # NB using this instead of import PIL to handle errors reading images. See also https://github.com/python-pillow/Pillow/issues/4678
 from tensorflow.keras.utils import load_img, img_to_array
@@ -67,15 +67,18 @@ def upload_files():
         # img = load_img(filename, color_mode='rgb', target_size=(224, 224)) 
         
         # replaces above nightmare load_img / PIL issues
-        import imageio as iio
+        # import imageio as iio
         # import imageio_freeimage
 
         """ import io
         buffer = io.BytesIO()
         uploaded_file.save(buffer) # this is an alternative to saving on AWS (/tmp/) which appears to be impossible to solve before I am dead from trying """
         #f = io.BytesIO(uploaded_file.stream) # should be similar to io.BytesIO(response.content)
-        img = iio.imread(filename, format='PNG') # or try again buffer ?
-        img = Image.fromarray(img).resize((224, 224))
+        import cv2
+        img = cv2.imread(filename)
+        img = cv2.resize(img, (224, 224))
+        #img = iio.imread(filename, format='PNG') # or try again buffer ?
+        #img = Image.fromarray(img).resize((224, 224))
 
         # below test specific image load from AWS - FINALLY THIS WORKS (AFTER ADDING RELATIVE PATH TO TF MODEL)!
         """ import requests
