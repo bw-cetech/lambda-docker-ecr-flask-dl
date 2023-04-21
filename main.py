@@ -75,10 +75,10 @@ def upload_files():
         uploaded_file.save(buffer) # this is an alternative to saving on AWS (/tmp/) which appears to be impossible to solve before I am dead from trying """
         #f = io.BytesIO(uploaded_file.stream) # should be similar to io.BytesIO(response.content)
         import cv2
-        img = cv2.imread(os.path.join('r', app.config['UPLOAD_FOLDER'], filename))  # cv2.imread not reading - None Type
+        img = cv2.imread(os.path.join('r', main.config['UPLOAD_FOLDER'], filename))  # cv2.imread not reading - None Type
 
         # test below image has been read, and its size
-        return flask.render_template("index.html", token=filename) 
+        return flask.render_template("index.html", token=os.path.join('r', main.config['UPLOAD_FOLDER'], filename)) 
 
         """ img = cv2.resize(img, (224, 224))
         #img = iio.imread(filename, format='PNG') # or try again buffer ?
