@@ -72,7 +72,7 @@ def upload_files():
         buffer = io.BytesIO()
         uploaded_file.save(buffer)
         #f = io.BytesIO(uploaded_file.stream) # should be similar to io.BytesIO(response.content)
-        img = iio.imread(buffer, index=None)
+        img = iio.imread(buffer, format='PNG')
         img = Image.fromarray(img).resize((224, 224))
 
         # below test specific image load from AWS - FINALLY THIS WORKS (AFTER ADDING RELATIVE PATH TO TF MODEL)!
