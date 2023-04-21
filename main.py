@@ -92,7 +92,7 @@ def upload_files():
         # below test specific image load from AWS - FINALLY THIS WORKS (AFTER ADDING RELATIVE PATH TO TF MODEL)!
         import requests
         import io
-        import imageio as iio
+        import imageio.v3 as iio
         image_url = 'https://github.com/bw-cetech/lambda-docker-ecr-flask-dl/blob/bf3e205ff91ef7202cb067552d3685f33cf6e9b4/static/uploads/00015_00010_00027.png?raw=true'
         response = requests.get(image_url)
         response.raise_for_status()
