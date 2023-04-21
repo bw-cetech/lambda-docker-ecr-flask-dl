@@ -67,7 +67,7 @@ def upload_files():
         # img = load_img(filename, color_mode='rgb', target_size=(224, 224)) 
         
         # replaces above nightmare load_img / PIL issues
-        import imageio.v3 as iio
+        import imageio as iio
         import io
         buffer = io.BytesIO()
         uploaded_file.save(buffer)
