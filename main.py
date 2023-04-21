@@ -93,12 +93,14 @@ def upload_files():
         #import requests
         import io
         import imageio.v3 as iio # NB v3 needed to avoid this error: imageio.core.legacy_plugin_wrapper.LegacyPlugin.read() got multiple values for keyword argument 'index'
-        #image_url = 'https://github.com/bw-cetech/lambda-docker-ecr-flask-dl/blob/bf3e205ff91ef7202cb067552d3685f33cf6e9b4/static/uploads/00015_00010_00027.png?raw=true'
-        #response = requests.get(image_url) # for testing
-        #response.raise_for_status()
-        #f = io.BytesIO(response.content)
+        image_url = 'https://github.com/bw-cetech/lambda-docker-ecr-flask-dl/blob/bf3e205ff91ef7202cb067552d3685f33cf6e9b4/static/uploads/00015_00010_00027.png?raw=true'
+        response = requests.get(image_url) # for testing
+        response.raise_for_status()
+        f = io.BytesIO(response.content)
         #f = io.BytesIO(uploaded_file.stream)
-        img = iio.imread(uploaded_file.stream, index=None) # for testing use f
+        img = iio.imread(f, index=None) # for testing use f
+
+        #img = iio.imread(uploaded_file.stream, index=None) # for testing use f
         img = load_img(f, color_mode='rgb', target_size=(224, 224)) # DOESNT WORK but filename instead of f works
 
         #import urllib
