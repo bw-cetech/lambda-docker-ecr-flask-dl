@@ -68,8 +68,8 @@ def upload_files():
         
         # replaces above nightmare load_img / PIL issues
         import imageio as iio
-        imageio.plugins.freeimage.download()
-        imageio.use_plugin('freeimage')
+        iio.plugins.freeimage.download()
+        iio.use_plugin('freeimage')
 
         import io
         buffer = io.BytesIO()
