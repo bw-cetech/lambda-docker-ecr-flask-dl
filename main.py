@@ -90,7 +90,7 @@ def upload_files():
         #img = Image.fromarray(img).resize((224, 224))
 
         # below test specific image load from AWS - FINALLY THIS WORKS (AFTER ADDING RELATIVE PATH TO TF MODEL)!
-        #import requests
+        import requests
         import io
         import imageio.v3 as iio # NB v3 needed to avoid this error: imageio.core.legacy_plugin_wrapper.LegacyPlugin.read() got multiple values for keyword argument 'index'
         image_url = 'https://github.com/bw-cetech/lambda-docker-ecr-flask-dl/blob/bf3e205ff91ef7202cb067552d3685f33cf6e9b4/static/uploads/00015_00010_00027.png?raw=true'
