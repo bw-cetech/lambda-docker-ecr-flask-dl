@@ -52,7 +52,7 @@ def write_image_to_s3(myImg, bucket, key, region_name='eu-west-1'):
     object = bucket.Object(key)
     file_stream = io.BytesIO()
     #im = Image.fromarray(img_array)
-    myImg.save(file_stream) # , format='png')
+    myImg.save(file_stream)
     object.put(Body=file_stream.getvalue())
 
 def read_image_from_s3(bucket, key, region_name='ap-southeast-1'):
@@ -165,7 +165,7 @@ def upload_files():
         # return flask.render_template("index.html", token=model.runInference(img_array))
 
         myBucket = 'serverless-flask-contain-serverlessdeploymentbuck-xxkjiabb8k1u'
-        myKey = 'serverless/serverless-flask-container/uplImg.png'
+        myKey = 'serverless/serverless-flask-container/uplImg' # uplImg.png causes problems on AWS S3
         write_image_to_s3(uploaded_file, myBucket, myKey, region_name='eu-west-1')
 
         dl_Array = read_image_from_s3(myBucket, myKey, region_name='eu-west-1')
