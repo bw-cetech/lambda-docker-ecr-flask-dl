@@ -47,13 +47,22 @@ def write_image_to_s3(myImg, bucket, key, region_name='eu-west-1'):
     -------
     None
     """
-    s3 = boto3.resource('s3', region_name)
-    bucket = s3.Bucket(bucket)
-    object = bucket.Object(key)
-    #file_stream = io.BytesIO()
-    #im = Image.fromarray(img_array)
-    #myImg.save(file_stream) # , format='png')
-    object.put(Body=myImg) # previously Body=file_stream.getvalue()
+    # s3 = boto3.resource('s3', region_name)
+    # bucket = s3.Bucket(bucket)
+    # object = bucket.Object(key)
+    # #file_stream = io.BytesIO()
+    # #im = Image.fromarray(img_array)
+    # #myImg.save(file_stream) # , format='png')
+    # object.put(Body=myImg) # previously Body=file_stream.getvalue()
+    s3 = boto3.client("s3", region_name=region_name)
+    s3.upload_fileobj(
+            myImg,
+            bucket,
+            key,
+            ExtraArgs={
+                "ContentType": myImg.content_type
+            }
+        )
 
 def read_image_from_s3(bucket, key, region_name='eu-west-1'):
     """Load image file from s3.
@@ -166,7 +175,7 @@ def upload_files():
 
         myBucket = 'serverless-flask-contain-serverlessdeploymentbuck-xxkjiabb8k1u'
         myKey = 'serverless/serverless-flask-container/uplImg.png'
-        write_image_to_s3(uploaded_file.read(), myBucket, myKey, region_name='eu-west-1')
+        write_image_to_s3(uploaded_file, myBucket, myKey, region_name='eu-west-1')
 
         dl_Array = read_image_from_s3(myBucket, myKey, region_name='eu-west-1')
 
