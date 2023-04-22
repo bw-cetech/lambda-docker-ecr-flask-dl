@@ -39,7 +39,7 @@ def index():
 @main.route('/', methods=['POST'])
 def upload_files():
     # return "<p>Hello, World!</p>" test - this works
-    uploaded_file = request.files['image']
+    uploaded_file = request.files['file']
     filename = secure_filename(uploaded_file.filename)
     # return filename  test - this works
     if filename != '':
