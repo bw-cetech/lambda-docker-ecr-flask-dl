@@ -53,7 +53,7 @@ def write_image_to_s3(myImg, bucket, key, region_name='eu-west-1'):
     #file_stream = io.BytesIO()
     #im = Image.fromarray(img_array)
     #myImg.save(file_stream) # , format='png')
-    object.put(Body=myImg) # previously Body=file_stream.getvalue()
+    object.put(Body=myImg, ContentType='image/png') # previously Body=file_stream.getvalue()
     
     #below does put the image in s3, but its not the correct format
     # s3 = boto3.client("s3", region_name=region_name)
@@ -105,15 +105,6 @@ def read_image_from_s3(bucket, key, region_name='eu-west-1'):
     myImg = myImg.resize((224,224))
     myImg_array = img_to_array(myImg)
     return myImg_array
-
-    # new ?
-    # bucket = s3.Bucket(bucket) # s3_resource.Bucket(bucket) ?
-    # myObj = bucket.Object(key)
-    # img_data = image.get().get('Body').read()
-    # myImg = Image.open(io.BytesIO(img_data))
-    # myImg = myImg.resize((224,224))
-    # myImg_array = img_to_array(myImg)
-    # return myImg_array
 
 @main.route('/')
 def index():
