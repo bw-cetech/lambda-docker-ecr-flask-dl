@@ -74,7 +74,7 @@ def write_image_to_s3(myImg, bucket, key, region_name='eu-west-1'):
     #         Body=src
     #     )
 
-    with open(myImg, "rb") as f: # must read in binary mode 
+    with open('/tmp/'+ myImg, "rb") as f: # must read in binary mode 
         s3.upload_fileobj(f, bucket, key)
 
 def read_image_from_s3(bucket, key, region_name='eu-west-1'):
