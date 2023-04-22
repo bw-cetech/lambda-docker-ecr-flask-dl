@@ -47,22 +47,22 @@ def write_image_to_s3(myImg, bucket, key, region_name='eu-west-1'):
     -------
     None
     """
-    # s3 = boto3.resource('s3', region_name)
-    # bucket = s3.Bucket(bucket)
-    # object = bucket.Object(key)
-    # #file_stream = io.BytesIO()
-    # #im = Image.fromarray(img_array)
-    # #myImg.save(file_stream) # , format='png')
-    # object.put(Body=myImg) # previously Body=file_stream.getvalue()
-    # s3 = boto3.client("s3", region_name=region_name)
-    # s3.upload_fileobj(
-    #         myImg,
-    #         bucket,
-    #         key,
-    #         ExtraArgs={
-    #             'ContentType': 'image/png'
-    #         }
-    #     )
+    s3 = boto3.resource('s3', region_name)
+    bucket = s3.Bucket(bucket)
+    object = bucket.Object(key)
+    #file_stream = io.BytesIO()
+    #im = Image.fromarray(img_array)
+    #myImg.save(file_stream) # , format='png')
+    object.put(Body=myImg) # previously Body=file_stream.getvalue()
+    s3 = boto3.client("s3", region_name=region_name)
+    s3.upload_fileobj(
+            myImg,
+            bucket,
+            key #,
+            # ExtraArgs={
+            #     'ContentType': 'image/png'
+            # }
+        )
     
     # s3.upload_file('myImg', 'bucket', 'key') ACTUALLY MIGHT WANT TO TRY THIS AGAIN - SHOULDNT HAVE ' ' AROUND BUCKET & KEY
 
@@ -74,8 +74,8 @@ def write_image_to_s3(myImg, bucket, key, region_name='eu-west-1'):
     #         Body=src
     #     )
 
-    with open('/tmp/'+ myImg, "rb") as f: # must read in binary mode 
-        s3.upload_fileobj(f, bucket, key)
+    # with open('/tmp/'+ myImg, "rb") as f: # must read in binary mode 
+    #     s3.upload_fileobj(f, bucket, key)
 
 def read_image_from_s3(bucket, key, region_name='eu-west-1'):
     """Load image file from s3.
@@ -94,14 +94,23 @@ def read_image_from_s3(bucket, key, region_name='eu-west-1'):
     """
     s3 = boto3.resource('s3', region_name='eu-west-1')
     bucket = s3.Bucket(bucket)
-    object = bucket.Object(key)
-    response = object.get()
+    myObj = bucket.Object(key)
+    response = myObj.get()
     file_stream = response['Body']
     myImg = Image.open(file_stream)
     # return np.array(im)
     myImg = myImg.resize((224,224))
     myImg_array = img_to_array(myImg)
     return myImg_array
+
+    # new ?
+    # bucket = s3.Bucket(bucket) # s3_resource.Bucket(bucket) ?
+    # myObj = bucket.Object(key)
+    # img_data = image.get().get('Body').read()
+    # myImg = Image.open(io.BytesIO(img_data))
+    # myImg = myImg.resize((224,224))
+    # myImg_array = img_to_array(myImg)
+    # return myImg_array
 
 @main.route('/')
 def index():
@@ -125,8 +134,8 @@ def upload_files():
         
         img = load_img(os.path.join(main.config['UPLOAD_FOLDER'], filename),color_mode='rgb', target_size=(224, 224)) """
         
-        fullPath = os.path.join(main.config['UPLOAD_FOLDER'], filename)
-        uploaded_file.save(fullPath)
+        # fullPath = os.path.join(main.config['UPLOAD_FOLDER'], filename)
+        # uploaded_file.save(fullPath)
         #img = load_img(os.path.join(main.config['UPLOAD_FOLDER'], filename),color_mode='rgb', target_size=(224, 224))
 
         # a new approach to change directly to AWS tmp storage location
@@ -150,9 +159,9 @@ def upload_files():
         # path = r'/tmp/00015_00010_00027.png'
         # img = cv2.imread(path)  # cv2.imread not reading - None Type
         # test if file has really been saved
-        a = os.listdir('/tmp')
-        for x in a:
-            return(x)
+        # a = os.listdir('/tmp')
+        # for x in a:
+        #     return(x)
 
         # test below image has been read, and its size
         # return flask.render_template("index.html", token=os.path.join('r', main.config['UPLOAD_FOLDER'], filename, 'EXTRA:', img, img.shape)) 
@@ -188,15 +197,15 @@ def upload_files():
         # return flask.render_template("index.html", token=model.runInference(img_array))
 
         # return fullPath # test
-        # myBucket = 'serverless-flask-contain-serverlessdeploymentbuck-xxkjiabb8k1u'
-        # myKey = 'serverless/serverless-flask-container/uplImg.png'
-        # write_image_to_s3(filename, myBucket, myKey, region_name='eu-west-1')
+        myBucket = 'serverless-flask-contain-serverlessdeploymentbuck-xxkjiabb8k1u'
+        myKey = 'serverless/serverless-flask-container/uplImg.png'
+        write_image_to_s3(uploaded_file, myBucket, myKey, region_name='eu-west-1')
 
-        # dl_Array = read_image_from_s3(myBucket, myKey, region_name='eu-west-1')
+        dl_Array = read_image_from_s3(myBucket, myKey, region_name='eu-west-1')
 
-        # model = Model()
+        model = Model()
 
-        # return flask.render_template("index.html", token=model.runInference(dl_Array))
+        return flask.render_template("index.html", token=model.runInference(dl_Array))
         
     return redirect(url_for('index'))
 
