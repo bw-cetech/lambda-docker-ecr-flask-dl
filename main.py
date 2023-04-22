@@ -94,12 +94,13 @@ def read_image_from_s3(bucket, key, region_name='eu-west-1'):
     np array
         Image array
     """
+    
     s3 = boto3.resource('s3', region_name='eu-west-1')
     bucket = s3.Bucket(bucket)
-    myObj = bucket.Object(key)
-    response = myObj.get()
-    file_stream = response['Body']
-    myImg = Image.open(file_stream)
+    object = bucket.Object(key)
+    response = object.get()
+    file_stream = response['Body'].read()
+    myImg = Image.open(io.BytesIO(file_stream))
     # return np.array(im)
     myImg = myImg.resize((224,224))
     myImg_array = img_to_array(myImg)
