@@ -182,15 +182,16 @@ def upload_files():
         # model = Model()
         # return flask.render_template("index.html", token=model.runInference(img_array))
 
-        myBucket = 'serverless-flask-contain-serverlessdeploymentbuck-xxkjiabb8k1u'
-        myKey = 'serverless/serverless-flask-container/uplImg.png'
-        write_image_to_s3(fullPath, myBucket, myKey, region_name='eu-west-1')
+        return fullPath # test
+        # myBucket = 'serverless-flask-contain-serverlessdeploymentbuck-xxkjiabb8k1u'
+        # myKey = 'serverless/serverless-flask-container/uplImg.png'
+        # write_image_to_s3(fullPath, myBucket, myKey, region_name='eu-west-1')
 
-        dl_Array = read_image_from_s3(myBucket, myKey, region_name='eu-west-1')
+        # dl_Array = read_image_from_s3(myBucket, myKey, region_name='eu-west-1')
 
-        model = Model()
+        # model = Model()
 
-        return flask.render_template("index.html", token=model.runInference(dl_Array))
+        # return flask.render_template("index.html", token=model.runInference(dl_Array))
         
     return redirect(url_for('index'))
 
