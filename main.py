@@ -47,32 +47,32 @@ def write_image_to_s3(myImg, bucket, key, region_name='eu-west-1'):
     -------
     None
     """
-    s3 = boto3.resource('s3', region_name)
-    bucket = s3.Bucket(bucket)
-    object = bucket.Object(key)
-    #file_stream = io.BytesIO()
-    #im = Image.fromarray(img_array)
-    #myImg.save(file_stream) # , format='png')
-    object.put(Body=myImg) # previously Body=file_stream.getvalue()
+    # s3 = boto3.resource('s3', region_name)
+    # bucket = s3.Bucket(bucket)
+    # object = bucket.Object(key)
+    # #file_stream = io.BytesIO()
+    # #im = Image.fromarray(img_array)
+    # #myImg.save(file_stream) # , format='png')
+    # object.put(Body=myImg) # previously Body=file_stream.getvalue()
     s3 = boto3.client("s3", region_name=region_name)
-    s3.upload_fileobj(
-            myImg,
-            bucket,
-            key #,
-            # ExtraArgs={
-            #     'ContentType': 'image/png'
-            # }
-        )
+    # s3.upload_fileobj(
+    #         myImg,
+    #         bucket,
+    #         key #,
+    #         # ExtraArgs={
+    #         #     'ContentType': 'image/png'
+    #         # }
+    #     )
     
     # s3.upload_file('myImg', 'bucket', 'key') ACTUALLY MIGHT WANT TO TRY THIS AGAIN - SHOULDNT HAVE ' ' AROUND BUCKET & KEY
 
-    # with open(myImgPath, 'rb') as src:
-    #     client.put_object(
-    #         ACL='public-read',
-    #         Bucket=bucket,
-    #         Key=key,
-    #         Body=src
-    #     )
+    with open(myImg, 'rb') as src: # myImgPath ?
+        client.put_object(
+            ACL='public-read',
+            Bucket=bucket,
+            Key=key,
+            Body=src
+        )
 
     # with open('/tmp/'+ myImg, "rb") as f: # must read in binary mode 
     #     s3.upload_fileobj(f, bucket, key)
@@ -201,6 +201,7 @@ def upload_files():
         myKey = 'serverless/serverless-flask-container/uplImg.png'
         write_image_to_s3(uploaded_file, myBucket, myKey, region_name='eu-west-1')
 
+        print("uploaded image to S3")
         dl_Array = read_image_from_s3(myBucket, myKey, region_name='eu-west-1')
 
         model = Model()
