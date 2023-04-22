@@ -17,3 +17,10 @@ functions:
     events:
       - http: ANY /
       - http: 'ANY /{proxy+}'
+
+custom:
+  apigwBinary:
+    types: 
+      - 'multipart/form-data'
+      - 'image/png'
+      - 'image/jpeg'
