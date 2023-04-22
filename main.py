@@ -94,7 +94,7 @@ def read_image_from_s3(bucket, key, region_name='eu-west-1'):
 def index():
     return flask.render_template('index.html')
 
-@main.route('dev/', methods=['POST'])
+@main.route('/', methods=['POST'])
 def upload_files():
     # return "<p>Hello, World!</p>" test - this works
     uploaded_file = request.files['file']
