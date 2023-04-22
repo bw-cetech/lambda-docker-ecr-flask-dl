@@ -3,8 +3,8 @@ import serverless_wsgi
 import flask
 from flask import request, redirect, flash, url_for, abort
 
-import dash
-from dash.dependencies import Input, Output, State
+import boto3
+import io
 
 import imghdr
 import os
@@ -17,7 +17,8 @@ from PIL import Image, ImageFile
 ImageFile.LOAD_TRUNCATED_IMAGES = True
 
 #from tensorflow.keras.preprocessing import image # NB using this instead of import PIL to handle errors reading images. See also https://github.com/python-pillow/Pillow/issues/4678
-from tensorflow.keras.utils import load_img, img_to_array
+# from tensorflow.keras.utils import load_img, img_to_array
+from tensorflow.keras.preprocessing.image import load_img, img_to_array
 
 main = flask.Flask(__name__)
 main.config['MAX_CONTENT_LENGTH'] = 1024 * 1024 # increased as bad request with large images
@@ -31,6 +32,54 @@ def validate_image(stream):
     if not format:
         return None
     return '.' + format # (format if format != 'jpeg' else 'jpg') ASSUMES JPEG AND JPG FORMAT CAN BOTH BE UPLOADED
+
+def write_image_to_s3(myImg, bucket, key, region_name='eu-west-1'):
+    """Write an image array into S3 bucket
+
+    Parameters
+    ----------
+    bucket: string
+        Bucket name
+    key : string
+        Path in s3
+
+    Returns
+    -------
+    None
+    """
+    s3 = boto3.resource('s3', region_name)
+    bucket = s3.Bucket(bucket)
+    object = bucket.Object(key)
+    file_stream = io.BytesIO()
+    #im = Image.fromarray(img_array)
+    myImg.save(file_stream) # , format='png')
+    object.put(Body=file_stream.getvalue())
+
+def read_image_from_s3(bucket, key, region_name='ap-southeast-1'):
+    """Load image file from s3.
+
+    Parameters
+    ----------
+    bucket: string
+        Bucket name
+    key : string
+        Path in s3
+
+    Returns
+    -------
+    np array
+        Image array
+    """
+    s3 = boto3.resource('s3', region_name='eu-west-1')
+    bucket = s3.Bucket(bucket)
+    object = bucket.Object(key)
+    response = object.get()
+    file_stream = response['Body']
+    myImg = Image.open(file_stream)
+    # return np.array(im)
+    myImg = myImg.resize((224,224))
+    myImg_array = img_to_array(myImg)
+    return myImg_array
 
 @main.route('/')
 def index():
@@ -90,16 +139,16 @@ def upload_files():
         #img = Image.fromarray(img).resize((224, 224))
 
         # below test specific image load from AWS - FINALLY THIS WORKS (AFTER ADDING RELATIVE PATH TO TF MODEL)!
-        import requests
-        import io
-        import imageio.v3 as iio # NB v3 needed to avoid this error: imageio.core.legacy_plugin_wrapper.LegacyPlugin.read() got multiple values for keyword argument 'index'
-        image_url = 'https://github.com/bw-cetech/lambda-docker-ecr-flask-dl/blob/bf3e205ff91ef7202cb067552d3685f33cf6e9b4/static/uploads/00015_00010_00027.png?raw=true'
-        response = requests.get(image_url) # for testing
-        response.raise_for_status()
-        f = io.BytesIO(response.content)
-        #f = io.BytesIO(uploaded_file.stream)
-        img = iio.imread(f, index=None) # for testing use f
-        img = Image.fromarray(img).resize((224, 224))
+        # import requests
+        # import io
+        # import imageio.v3 as iio # NB v3 needed to avoid this error: imageio.core.legacy_plugin_wrapper.LegacyPlugin.read() got multiple values for keyword argument 'index'
+        # image_url = 'https://github.com/bw-cetech/lambda-docker-ecr-flask-dl/blob/bf3e205ff91ef7202cb067552d3685f33cf6e9b4/static/uploads/00015_00010_00027.png?raw=true'
+        # response = requests.get(image_url) # for testing
+        # response.raise_for_status()
+        # f = io.BytesIO(response.content)
+        # #f = io.BytesIO(uploaded_file.stream)
+        # img = iio.imread(f, index=None) # for testing use f
+        # img = Image.fromarray(img).resize((224, 224))
 
         #img = iio.imread(uploaded_file.stream, index=None) # for testing use f
         #img = load_img(f, color_mode='rgb', target_size=(224, 224)) # DOESNT WORK but filename instead of f works
@@ -110,11 +159,21 @@ def upload_files():
 
         # os.chdir(currentPath) # change back
 
-        img_array = img_to_array(img)
+        # img_array = img_to_array(img)
+
+        # model = Model()
+        # return flask.render_template("index.html", token=model.runInference(img_array))
+
+        myBucket = 'serverless-flask-contain-serverlessdeploymentbuck-xxkjiabb8k1u'
+        myKey = 'serverless/serverless-flask-container/uplImg.png'
+        write_image_to_s3(uploaded_file, myBucket, myKey, region_name='eu-west-1')
+
+        dl_Array = read_image_from_s3(myBucket, myKey, region_name='eu-west-1')
 
         model = Model()
-        return flask.render_template("index.html", token=model.runInference(img_array))
 
+        return flask.render_template("index.html", token=model.runInference(dl_Array))
+        
     return redirect(url_for('index'))
 
 def handler(event, context):
