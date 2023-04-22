@@ -99,9 +99,10 @@ def upload_files():
         f = io.BytesIO(response.content)
         #f = io.BytesIO(uploaded_file.stream)
         img = iio.imread(f, index=None) # for testing use f
+        img = Image.fromarray(img).resize((224, 224))
 
         #img = iio.imread(uploaded_file.stream, index=None) # for testing use f
-        img = load_img(f, color_mode='rgb', target_size=(224, 224)) # DOESNT WORK but filename instead of f works
+        #img = load_img(f, color_mode='rgb', target_size=(224, 224)) # DOESNT WORK but filename instead of f works
 
         #import urllib
         # img = Image.open(uploaded_file.stream)
