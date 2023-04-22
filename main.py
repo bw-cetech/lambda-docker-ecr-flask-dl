@@ -33,7 +33,7 @@ def validate_image(stream):
         return None
     return '.' + format # (format if format != 'jpeg' else 'jpg') ASSUMES JPEG AND JPG FORMAT CAN BOTH BE UPLOADED
 
-def write_image_to_s3(myImgPath, bucket, key, region_name='eu-west-1'):
+def write_image_to_s3(myImg, bucket, key, region_name='eu-west-1'):
     """Write an image array into S3 bucket
 
     Parameters
@@ -55,22 +55,22 @@ def write_image_to_s3(myImgPath, bucket, key, region_name='eu-west-1'):
     # #myImg.save(file_stream) # , format='png')
     # object.put(Body=myImg) # previously Body=file_stream.getvalue()
     s3 = boto3.client("s3", region_name=region_name)
-    # s3.upload_fileobj(
-    #         myImg,
-    #         bucket,
-    #         key,
-    #         ExtraArgs={
-    #             "ContentType": myImg.content_type
-    #         }
-    #     )
-
-    with open(myImgPath, 'rb') as src:
-        client.put_object(
-            ACL='public-read',
-            Bucket=bucket,
-            Key=key,
-            Body=src
+    s3.upload_fileobj(
+            myImg,
+            bucket,
+            key,
+            ExtraArgs={
+                'ContentType': 'image/png'
+            }
         )
+
+    # with open(myImgPath, 'rb') as src:
+    #     client.put_object(
+    #         ACL='public-read',
+    #         Bucket=bucket,
+    #         Key=key,
+    #         Body=src
+    #     )
 
 def read_image_from_s3(bucket, key, region_name='eu-west-1'):
     """Load image file from s3.
@@ -120,8 +120,8 @@ def upload_files():
         
         img = load_img(os.path.join(main.config['UPLOAD_FOLDER'], filename),color_mode='rgb', target_size=(224, 224)) """
         
-        fullPath = os.path.join(main.config['UPLOAD_FOLDER'], filename)
-        uploaded_file.save(fullPath)
+        # fullPath = os.path.join(main.config['UPLOAD_FOLDER'], filename)
+        # uploaded_file.save(fullPath)
         #img = load_img(os.path.join(main.config['UPLOAD_FOLDER'], filename),color_mode='rgb', target_size=(224, 224))
 
         # a new approach to change directly to AWS tmp storage location
@@ -182,16 +182,16 @@ def upload_files():
         # model = Model()
         # return flask.render_template("index.html", token=model.runInference(img_array))
 
-        return fullPath # test
-        # myBucket = 'serverless-flask-contain-serverlessdeploymentbuck-xxkjiabb8k1u'
-        # myKey = 'serverless/serverless-flask-container/uplImg.png'
-        # write_image_to_s3(fullPath, myBucket, myKey, region_name='eu-west-1')
+        # return fullPath # test
+        myBucket = 'serverless-flask-contain-serverlessdeploymentbuck-xxkjiabb8k1u'
+        myKey = 'serverless/serverless-flask-container/uplImg.png'
+        write_image_to_s3(uploaded_file, myBucket, myKey, region_name='eu-west-1')
 
-        # dl_Array = read_image_from_s3(myBucket, myKey, region_name='eu-west-1')
+        dl_Array = read_image_from_s3(myBucket, myKey, region_name='eu-west-1')
 
-        # model = Model()
+        model = Model()
 
-        # return flask.render_template("index.html", token=model.runInference(dl_Array))
+        return flask.render_template("index.html", token=model.runInference(dl_Array))
         
     return redirect(url_for('index'))
 
