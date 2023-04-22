@@ -64,7 +64,7 @@ def write_image_to_s3(myImg, bucket, key, region_name='eu-west-1'):
     #         }
     #     )
     
-    s3.upload_file('myImg', 'bucket', 'key')
+    # s3.upload_file('myImg', 'bucket', 'key') ACTUALLY MIGHT WANT TO TRY THIS AGAIN - SHOULDNT HAVE ' ' AROUND BUCKET & KEY
 
     # with open(myImgPath, 'rb') as src:
     #     client.put_object(
@@ -73,6 +73,9 @@ def write_image_to_s3(myImg, bucket, key, region_name='eu-west-1'):
     #         Key=key,
     #         Body=src
     #     )
+
+    with open(myImg, "rb") as f: # must read in binary mode 
+        s3.upload_fileobj(f, bucket, key)
 
 def read_image_from_s3(bucket, key, region_name='eu-west-1'):
     """Load image file from s3.
