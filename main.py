@@ -120,7 +120,8 @@ def upload_files():
         
         img = load_img(os.path.join(main.config['UPLOAD_FOLDER'], filename),color_mode='rgb', target_size=(224, 224)) """
         
-        #uploaded_file.save(os.path.join(main.config['UPLOAD_FOLDER'], filename))
+        fullPath = os.path.join(main.config['UPLOAD_FOLDER'], filename)
+        uploaded_file.save(fullPath)
         #img = load_img(os.path.join(main.config['UPLOAD_FOLDER'], filename),color_mode='rgb', target_size=(224, 224))
 
         # a new approach to change directly to AWS tmp storage location
@@ -183,7 +184,7 @@ def upload_files():
 
         myBucket = 'serverless-flask-contain-serverlessdeploymentbuck-xxkjiabb8k1u'
         myKey = 'serverless/serverless-flask-container/uplImg.png'
-        write_image_to_s3(filename, myBucket, myKey, region_name='eu-west-1')
+        write_image_to_s3(fullPath, myBucket, myKey, region_name='eu-west-1')
 
         dl_Array = read_image_from_s3(myBucket, myKey, region_name='eu-west-1')
 
