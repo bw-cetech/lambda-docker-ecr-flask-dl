@@ -197,7 +197,7 @@ def upload_files():
         # return flask.render_template("index.html", token=model.runInference(img_array))
 
         # return fullPath # test
-        myBucket = 'serverless-flask-contain-serverlessdeploymentbuck-xxkjiabb8k1u'
+        myBucket = 'serverless-flask-contain-serverlessdeploymentbuck-o6ukv650uooh'
         myKey = 'serverless/serverless-flask-container/uplImg.png'
         write_image_to_s3(uploaded_file, myBucket, myKey, region_name='eu-west-1')
 
