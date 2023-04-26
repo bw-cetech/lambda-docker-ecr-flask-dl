@@ -5,6 +5,7 @@ from flask import request, redirect, flash, url_for, abort
 
 import boto3
 import io
+import pybase64
 
 import imghdr
 import os
@@ -119,7 +120,7 @@ def read_image_from_s3(bucket, key, region_name='eu-west-1'):
     return {
             'headers': { "Content-Type": "image/png" },
             'statusCode': 200,
-            'body': base64.b64encode(image).decode('utf-8'),
+            'body': pybase64.b64encode(image).decode('utf-8'),
             'isBase64Encoded': True
     }
 
