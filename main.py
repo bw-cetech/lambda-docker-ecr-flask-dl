@@ -111,18 +111,26 @@ def read_image_from_s3(bucket, key, region_name='eu-west-1'):
     # based on https://docs.aws.amazon.com/apigateway/latest/developerguide/lambda-proxy-binary-media.html
     # together with setting binary types = */* in the API Gateway Cnosole
     # https://docs.aws.amazon.com/apigateway/latest/developerguide/api-gateway-payload-encodings-configure-with-console.html
-    s3 = boto3.client('s3', region_name=region_name)
-    response = s3.get_object(
-            Bucket=bucket,
-            Key=key,
-        )
-    image = response['Body'].read()
-    return {
-            'headers': { "Content-Type": "image/png" },
-            'statusCode': 200,
-            'body': pybase64.b64encode(image).decode('utf-8'),
-            'isBase64Encoded': True
-    }
+    # s3 = boto3.client('s3', region_name=region_name)
+    # response = s3.get_object(
+    #         Bucket=bucket,
+    #         Key=key,
+    #     )
+    # image = response['Body'].read()
+    # return {
+    #         'headers': { "Content-Type": "image/png" },
+    #         'statusCode': 200,
+    #         'body': pybase64.b64encode(image).decode('utf-8'),
+    #         'isBase64Encoded': True
+    # }
+
+    s3 = boto3.resource('s3', region_name=region_name)
+    bucket = s3.Bucket(bucket)
+    object = bucket.Object(key)
+    response = object.get()
+    file_stream = response['Body']
+    im = Image.open(file_stream)
+    return im
 
 @main.route('/')
 def index():
