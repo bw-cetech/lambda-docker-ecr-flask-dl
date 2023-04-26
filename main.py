@@ -66,7 +66,8 @@ def write_image_to_s3(myImg, bucket, key, region_name='eu-west-1'):
     #         # }
     #     )
     
-    # s3.upload_file('myImg', 'bucket', 'key') ACTUALLY MIGHT WANT TO TRY THIS AGAIN - SHOULDNT HAVE ' ' AROUND BUCKET & KEY
+    
+    # s3.upload_file(myImg, bucket, key) another option ?
 
     # with open(myImg, 'rb') as src: # myImgPath ?
     #     client.put_object(
@@ -95,16 +96,32 @@ def read_image_from_s3(bucket, key, region_name='eu-west-1'):
         Image array
     """
     
-    s3 = boto3.resource('s3', region_name='eu-west-1')
-    bucket = s3.Bucket(bucket)
-    object = bucket.Object(key)
-    response = object.get()
-    file_stream = response['Body'].read()
-    myImg = Image.open(io.BytesIO(file_stream))
-    # return np.array(im)
-    myImg = myImg.resize((224,224))
-    myImg_array = img_to_array(myImg)
-    return myImg_array
+    # s3 = boto3.resource('s3', region_name='eu-west-1')
+    # bucket = s3.Bucket(bucket)
+    # object = bucket.Object(key)
+    # response = object.get()
+    # file_stream = response['Body'].read()
+    # myImg = Image.open(io.BytesIO(file_stream))
+    # # return np.array(im)
+    # myImg = myImg.resize((224,224))
+    # myImg_array = img_to_array(myImg)
+    # return myImg_array
+
+    # based on https://docs.aws.amazon.com/apigateway/latest/developerguide/lambda-proxy-binary-media.html
+    # together with setting binary types = */* in the API Gateway Cnosole
+    # https://docs.aws.amazon.com/apigateway/latest/developerguide/api-gateway-payload-encodings-configure-with-console.html
+    s3 = boto3.client('s3', region_name=region_name)
+    response = s3.get_object(
+            Bucket=bucket,
+            Key=key,
+        )
+    image = response['Body'].read()
+    return {
+            'headers': { "Content-Type": "image/png" },
+            'statusCode': 200,
+            'body': base64.b64encode(image).decode('utf-8'),
+            'isBase64Encoded': True
+    }
 
 @main.route('/')
 def index():
@@ -196,11 +213,14 @@ def upload_files():
         write_image_to_s3(uploaded_file, myBucket, myKey, region_name='eu-west-1')
 
         print("uploaded image to S3")
-        dl_Array = read_image_from_s3(myBucket, myKey, region_name='eu-west-1')
+        myImg = read_image_from_s3(myBucket, myKey, region_name='eu-west-1')
 
+        myImg = myImg.resize((224,224))
+        myImg_array = img_to_array(myImg)
+   
         model = Model()
 
-        return flask.render_template("index.html", token=model.runInference(dl_Array))
+        return flask.render_template("index.html", token=model.runInference(myImg_array))
         
     return redirect(url_for('index'))
 
